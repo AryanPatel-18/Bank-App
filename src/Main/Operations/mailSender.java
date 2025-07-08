@@ -1,13 +1,13 @@
 package Main.Operations;
 
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import java.io.*;
-import java.nio.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Properties;
-import javax.mail.*;
-import javax.mail.internet.*;
 
 
 public class mailSender {

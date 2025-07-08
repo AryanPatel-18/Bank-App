@@ -2,19 +2,23 @@ package Main.Controllers;
 
 import Main.DBconnect;
 import Main.Operations.mailSender;
-import javafx.fxml.*;
-import javafx.scene.*;
-import javafx.scene.control.*;
-import javafx.stage.Stage;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.*;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
+import java.util.Objects;
 
 public class LoginController {
     @FXML
@@ -89,7 +93,7 @@ public class LoginController {
     }
 
     public static void showInfo(String title, String message) {
-        Alert alert = new Alert(AlertType.INFORMATION);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
         alert.setHeaderText("Error Window"); // optional: removes the header
         alert.setContentText(message);
