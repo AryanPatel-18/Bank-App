@@ -1,9 +1,11 @@
 package Main.Models;
 
+import java.time.LocalDate;
+
 public class User {
 
     private final String first_name;
-    private final String birth_date;
+    private final LocalDate birth_date;
     private final String phone_number;
     private final String email;
     private final String address;
@@ -11,7 +13,7 @@ public class User {
     private final String city;
     private final String password_hash;
 
-    public User(String first_name, String email, String password_hash , String phone_number, String address, String state, String city, String birth_date) {
+    public User(String first_name, String email, String password_hash , String phone_number, String address, String state, String city, LocalDate birth_date) {
         this.first_name = first_name;
         this.birth_date = birth_date;
         this.phone_number = phone_number;
@@ -30,7 +32,7 @@ public class User {
         return password_hash;
     }
 
-    public String getBirth_date() {
+    public LocalDate getBirth_date() {
         return birth_date;
     }
 

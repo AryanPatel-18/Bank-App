@@ -1,6 +1,5 @@
 package Main.Controllers;
 
-import Main.DBconnect;
 import Main.Utils.mailSender;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -8,17 +7,15 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Objects;
+
+
+
 
 public class LoginController {
     @FXML
@@ -32,8 +29,8 @@ public class LoginController {
     public void login(ActionEvent event) throws Exception {
         String email = emailField.getText().trim();
 
-        if(!checkEmail(email)){
-            showInfo("Failed", "Invalid email was entered");
+        if(!Main.Utils.Validators.checkEmail(email)){
+            Main.Utils.Validators.showInfo("Failed", "Invalid email was entered");
             return;
         }
 
@@ -69,36 +66,18 @@ public class LoginController {
     private void initialize() {
         submitButton.setDisable(true);
         passwordField.textProperty().addListener((obs, oldText, newText) ->{
-            submitButton.setDisable(isValidEmail(emailField.getText().trim()) || passwordField.getText().trim().isEmpty());
+            submitButton.setDisable(Main.Utils.Validators.isValidEmail(emailField.getText().trim()) || passwordField.getText().trim().isEmpty());
         });
         emailField.textProperty().addListener((obs, oldText, newText) ->{
-            submitButton.setDisable(isValidEmail(emailField.getText().trim())|| passwordField.getText().trim().isEmpty());
+            submitButton.setDisable(Main.Utils.Validators.isValidEmail(emailField.getText().trim())|| passwordField.getText().trim().isEmpty());
         });
     }
 
-    boolean isValidEmail(String email) {
-        String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$";
-        boolean valid =  email != null && email.matches(emailRegex);
-        return  !valid;
-    }
 
-    boolean checkEmail(String email) throws SQLException {
-        Connection con = DBconnect.getConnection();
-        String query = String.format("SELECT * FROM users WHERE email = '%s'",email);
 
-        Statement statement = con.createStatement();
-        ResultSet rs = statement.executeQuery(query);
 
-        return rs.next();
-    }
 
-    public static void showInfo(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(title);
-        alert.setHeaderText("Error Window"); // optional: removes the header
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
+
 
 }
 
