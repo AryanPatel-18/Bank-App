@@ -4,6 +4,10 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+// Main java file that is used to connect to the database
+// We can simply fetch the connection from this static function
+// Prevents any boilerplate code
+
 public class DBconnect {
     private static final String URL = "jdbc:postgresql://localhost:5432/BankApp";
     private static final String USER = "postgres";

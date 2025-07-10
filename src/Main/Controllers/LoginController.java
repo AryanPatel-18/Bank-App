@@ -22,7 +22,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Objects;
 
-
+// Login file contains all the methods that are required for the login fxml file form
 
 
 public class LoginController {
@@ -41,9 +41,11 @@ public class LoginController {
     private String password;
     private static String resetEmail;
 
+    // Main login controller file ( activates when the submit button is clicked )
     public void login(ActionEvent event) throws Exception {
         String email = emailField.getText().trim();
 
+        // Validating the email
         if(!Validators.checkEmail(email)){
             Validators.showInfo("Failed", "Invalid email was entered");
             return;
@@ -51,6 +53,7 @@ public class LoginController {
 
         String password = getPasswordHash(email);
 
+        // Checking the password and sending the otp
         if(BCrypt.checkpw(passwordField.getText(), password)){
             otpController o = new otpController();
             mailSender m = new mailSender(email);
@@ -64,6 +67,7 @@ public class LoginController {
     }
 
 
+    // Reset password ( executed when the reset button is pressed )
     public void resetPassword(ActionEvent e) throws SQLException, IOException {
         resetEmail = emailField.getText().trim();
         mailSender mail = new mailSender(resetEmail);
@@ -75,8 +79,10 @@ public class LoginController {
         }
 
         otpController o = new otpController();
+        // Updating all the static emails in the otp file and rest file
         ResetPasswordController.setResetEmail(resetEmail);
         o.setEmail(resetEmail);
+
         if(!Validators.checkEmail(resetEmail)){
             Validators.showInfo("Failed", "Invalid email was entered");
             return;
@@ -85,6 +91,7 @@ public class LoginController {
         switchToResetpasswordOtpScreen(e);
     }
 
+    // All the switching scenes required for the login page as well as all the forms
     public void switchToOtpScene(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Resources/FXML_files/Form/otpScreen.fxml")));
         Scene scene = new Scene(root);
@@ -120,6 +127,7 @@ public class LoginController {
         stage.setScene(scene);
     }
 
+    // initialize function ( executed when the fxml file is loaded )
     @FXML
     private void initialize() {
         submitButton.setDisable(true);
@@ -131,6 +139,7 @@ public class LoginController {
         });
     }
 
+    // Fetching the hash from the database
     private String getPasswordHash(String email) throws SQLException {
         Connection connection = DBconnect.getConnection();
         String query = "SELECT password_hash FROM users WHERE email = ?";

@@ -10,6 +10,8 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.Objects;
 
+// This file is only for the Main scene ( Main menu )
+
 public class MainController {
 
 

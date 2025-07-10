@@ -14,6 +14,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+// This file contains all the methods that are required for the reset password fxml file
+
 public class ResetPasswordController {
     @FXML
     private PasswordField newPassword;
@@ -22,6 +24,8 @@ public class ResetPasswordController {
     @FXML
     private Button resetButton;
     private static String resetEmail;
+
+    // Disabling the submit button unless all both the password fields are filled
     @FXML
     private void initialize() {
         resetButton.setDisable(true);
@@ -35,6 +39,7 @@ public class ResetPasswordController {
         confirmPassword.textProperty().addListener(fieldListener);
     }
 
+    // For checking if both the passwords that are entered are the same or not ( Executed when the reset password button is clicked )
     public void verifyPassword(ActionEvent e) throws SQLException, IOException {
         Connection connection = DBconnect.getConnection();
         LoginController login = new LoginController();
@@ -47,6 +52,8 @@ public class ResetPasswordController {
             String query = "UPDATE users SET password_hash = ? WHERE email = ?";
             System.out.println(resetEmail);
             PreparedStatement statement = connection.prepareStatement(query);
+
+            // Passwords can be compared by generating the BCrypt hash of the password that was entered by the user and comparing with the password that is stored in the db
             statement.setString(1, BCrypt.hashpw(password, BCrypt.gensalt(12)));
             statement.setString(2, resetEmail);
             int rows = statement.executeUpdate();
@@ -64,6 +71,7 @@ public class ResetPasswordController {
         }
     }
 
+    // For setting the static email value
     public static void setResetEmail(String email){
         resetEmail = email;
     }

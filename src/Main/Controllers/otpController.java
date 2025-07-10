@@ -11,6 +11,8 @@ import javafx.util.Duration;
 
 import java.io.IOException;
 
+// This file contains all the methods that are required for the opt generation, deletion as well as validation
+
 public class otpController {
 
     @FXML
@@ -22,6 +24,7 @@ public class otpController {
     public static String email;
     LoginController login = new LoginController();
 
+    // Checks the otp value from the text file in which it is temporarily saved
     public void checkValue(ActionEvent e) throws IOException {
         mailSender m = new mailSender();
         int enteredOtp = Integer.parseInt(otpField.getText().trim());
@@ -49,6 +52,8 @@ public class otpController {
 
     @FXML
     private void initialize() {
+
+        // disables the submit button until the otp that is entered is of 4 digits and only contains numbers
         otpField.textProperty().addListener((obs, oldText, newText) -> {
             submitButton.setDisable(true);
             if(otpField.getText().matches("\\d{4}")){
@@ -61,6 +66,7 @@ public class otpController {
             }
         });
 
+        // Simple animation ( need to be replaced )
         submitButton.setOnMousePressed(mouseEvent ->{
             ScaleTransition st = new ScaleTransition(Duration.millis(100),submitButton);
             st.setToX(0.98);
@@ -76,6 +82,7 @@ public class otpController {
         });
     }
 
+    // For setting the static email variable
     void setEmail(String email){
         otpController.email = email;
     }

@@ -13,6 +13,9 @@ import Main.Utils.*;
 import java.sql.*;
 import java.util.ArrayList;
 
+// Create Controller file contains all the methods for the create user fxml form
+
+
 public class CreateController {
     @FXML
     private TextField nameField;
@@ -34,9 +37,11 @@ public class CreateController {
     public void createAccount(ActionEvent e) throws SQLException {
         Create create = new Create();
 
+        // Creating hash code for the password
         String password_hash = BCrypt.hashpw(passwordField.getText(), BCrypt.gensalt(12));
         String email = emailField.getText();
 
+        // Validating all the fields
         if(checkAllFields()){
             Main.Utils.Validators.showInfo("Empty Fields", "Please enter all the values");
             return;
@@ -69,6 +74,7 @@ public class CreateController {
         ));
     }
 
+    // initialize function ( executed when the fxml file is loaded )
     @FXML
     public void initialize(){
         ArrayList<String> states = new ArrayList<>();

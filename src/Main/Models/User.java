@@ -2,6 +2,9 @@ package Main.Models;
 
 import java.time.LocalDate;
 
+// User objects used for storing information
+// also contains all the callable methods that can be used
+
 public class User {
 
     private final String first_name;

@@ -6,6 +6,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+// Main File that contains the psvm function for execution
+// Will only be used once to launch the application rest will be done by other classes
+
 public class Main extends Application {
 
     @Override

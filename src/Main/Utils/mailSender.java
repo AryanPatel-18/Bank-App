@@ -10,12 +10,15 @@ import java.nio.file.Paths;
 import java.util.Properties;
 
 
+// This is the main class that sends the email as well as stores the otp that is generated
+
 public class mailSender {
     final private String username = "aryanpatel2593@gmail.com";
     final private String password = "xqyr vqou viif lrrc";
     private int otp;
     String email;
 
+    // Setting the otp as well as saving it with the name of the file
     public mailSender(String email) throws IOException {
         this.otp = (int)(Math.random() * 9000) + 1000;
         this.email = email;
@@ -24,6 +27,7 @@ public class mailSender {
 
     public mailSender(){}
 
+    // Used for checking the otp
     public boolean checkOtp(int enteredOtp, String email) throws IOException{
         Path path = Paths.get(String.format("C:\\Users\\aryan\\OneDrive\\Desktop\\Coding\\Java\\Java-2-Project\\BankApp\\src\\Resources\\Otps\\%s.txt",email.split("@")[0]));
         BufferedReader reader = new BufferedReader(new FileReader(String.format("C:\\Users\\aryan\\OneDrive\\Desktop\\Coding\\Java\\Java-2-Project\\BankApp\\src\\Resources\\Otps\\%s.txt",email.split("@")[0])));
@@ -37,6 +41,7 @@ public class mailSender {
         return actualOtp == enteredOtp;
     }
 
+    // Used for storing the otp
     private void storeOtp() {
         try {
             Delete delete = new Delete(email);
@@ -52,6 +57,7 @@ public class mailSender {
 
     }
 
+    // Sending the mail
     public void sendMail(String email) {
 
         // SMTP server settings
@@ -99,9 +105,10 @@ public class mailSender {
     }
 }
 
+// Delete class is created to basically delete the otp file after 10 minutes ( time can be changed )
 class Delete extends Thread{
 
-    private String email;
+    private final String email;
 
     Delete(String email){
         this.email = email;
@@ -111,6 +118,7 @@ class Delete extends Thread{
         return new File(String.format("src/Resources/Otps/%s.txt",email.split("@")[0]));
     }
 
+    // Simple thread methods that runs the .delete() operation on the otp file
     public void run(){
          File file = getOtpFile();
         try {

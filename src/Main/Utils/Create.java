@@ -9,6 +9,9 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+// Create file would contain all the methods that would be used to create objects for all the classes
+
+
 public class Create {
 
     private void createUser(User obj) throws SQLException {
