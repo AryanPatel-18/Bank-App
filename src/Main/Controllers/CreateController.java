@@ -11,10 +11,7 @@ import javafx.scene.control.TextField;
 import Main.Utils.*;
 
 import java.sql.*;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class CreateController {
     @FXML
@@ -118,6 +115,7 @@ public class CreateController {
         cityField.getItems().addAll(city);
     }
 
+    // Validating if all the fields have values or not
     boolean checkAllFields() {
         return (
                 emailField.getText().isEmpty() ||

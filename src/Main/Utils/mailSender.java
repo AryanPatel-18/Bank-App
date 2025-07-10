@@ -14,7 +14,7 @@ public class mailSender {
     final private String username = "aryanpatel2593@gmail.com";
     final private String password = "xqyr vqou viif lrrc";
     private int otp;
-    private String email;
+    String email;
 
     public mailSender(String email) throws IOException {
         this.otp = (int)(Math.random() * 9000) + 1000;
@@ -39,13 +39,13 @@ public class mailSender {
 
     private void storeOtp() {
         try {
-            File file = new File(String.format("C:\\Users\\aryan\\OneDrive\\Desktop\\Coding\\Java\\Java-2-Project\\BankApp\\src\\Resources\\Otps\\%s.txt",email.split("@")[0]));
-//            System.out.println(file.createNewFile());
+            Delete delete = new Delete(email);
+            File file = new File(String.format("src/Resources/Otps/%s.txt",email.split("@")[0]));
+            file.createNewFile();
             BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-            String otpString = "";
-            otpString += otp;
-            writer.write(otpString);
+            writer.write(String.valueOf(otp));
             writer.close();
+            delete.start();
         } catch (IOException e) {
             System.out.println("Problem while creating the file");
         }
@@ -95,6 +95,41 @@ public class mailSender {
 
         } catch (MessagingException e) {
             e.printStackTrace();
+        }
+    }
+}
+
+class Delete extends Thread{
+
+    private String email;
+
+    Delete(String email){
+        this.email = email;
+    }
+
+    private File getOtpFile(){
+        return new File(String.format("src/Resources/Otps/%s.txt",email.split("@")[0]));
+    }
+
+    public void run(){
+         File file = getOtpFile();
+        try {
+            // Wait for 10 minutes (600,000 milliseconds)
+//            Thread.sleep(10 * 60 * 1000);
+            Thread.sleep(20000);
+            // Delete the file
+            if (file.exists()) {
+                if (file.delete()) {
+                    System.out.println("OTP file deleted successfully.");
+                } else {
+                    System.out.println("Failed to delete the OTP file.");
+                }
+            } else {
+                System.out.println("OTP file does not exist.");
+            }
+
+        } catch (InterruptedException e) {
+            System.out.println("Thread was interrupted before timeout.");
         }
     }
 }

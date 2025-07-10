@@ -34,6 +34,19 @@ public class otpController {
         }
     }
 
+    // For checking the otp for reset password
+    public void checkOtpResetPassword(ActionEvent e) throws IOException {
+        mailSender m = new mailSender();
+        int enteredOtp = Integer.parseInt(otpField.getText().trim());
+        if(m.checkOtp(enteredOtp, email)){
+            System.out.println("valid otp entered");
+            login.switchToResetpasswordScreen(e);
+        }else{
+            System.out.println("invalid otp");
+            login.switchToLoginScene(e);
+        }
+    }
+
     @FXML
     private void initialize() {
         otpField.textProperty().addListener((obs, oldText, newText) -> {

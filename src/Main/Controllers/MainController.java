@@ -14,7 +14,7 @@ public class MainController {
 
 
     public void switchToOtpScene(ActionEvent e) throws IOException {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Resources/FXML_files/otpScreen.fxml")));
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Resources/FXML_files/Form/otpScreen.fxml")));
         Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);
         scene.getStylesheets().add("/Resources/Styles/otp.css");

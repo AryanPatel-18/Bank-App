@@ -8,7 +8,7 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #c1e1fc;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Main.Controllers.otpController">
     <children>
-        <Button fx:id="submitButton" layoutX="240.0" layoutY="237.0" mnemonicParsing="false" onAction="#checkValue" stylesheets="@../Styles/otp.css" text="Submit" />
+        <Button fx:id="submitButton" layoutX="240.0" layoutY="237.0" mnemonicParsing="false" onAction="#checkValue" stylesheets="@../../Styles/otp.css" text="Submit" />
         <TextField fx:id="otpField" layoutX="226.0" layoutY="122.0" promptText="Enter Otp" style="-fx-alignment: center;" />
         <Label fx:id="invalidMessage" layoutX="200.0" layoutY="277.0" text="Please enter a valid value" textFill="RED">
             <font>

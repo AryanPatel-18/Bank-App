@@ -11,7 +11,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Resources/FXML_files/createAccount.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Resources/FXML_files/Form/login.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
