@@ -1,6 +1,6 @@
 package Main.Controllers;
 
-import Main.Operations.mailSender;
+import Main.Utils.mailSender;
 import javafx.animation.ScaleTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

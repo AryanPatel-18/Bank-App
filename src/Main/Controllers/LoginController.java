@@ -1,7 +1,7 @@
 package Main.Controllers;
 
 import Main.DBconnect;
-import Main.Operations.mailSender;
+import Main.Utils.mailSender;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

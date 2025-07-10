@@ -1,7 +1,7 @@
-package Main.Operations;
+package Main.Utils;
 
 import Main.DBconnect;
-import Main.ObjectFiles.User;
+import Main.Models.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

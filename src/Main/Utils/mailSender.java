@@ -1,4 +1,4 @@
-package Main.Operations;
+package Main.Utils;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;

@@ -1,4 +1,4 @@
-package Main.ObjectFiles;
+package Main.Models;
 
 public class User {
 

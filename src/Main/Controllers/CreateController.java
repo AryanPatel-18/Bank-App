@@ -1,10 +1,10 @@
 package Main.Controllers;
 
-import Main.ObjectFiles.User;
+import Main.Models.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
-import Main.Operations.*;
+import Main.Utils.*;
 
 import java.sql.SQLException;
 
