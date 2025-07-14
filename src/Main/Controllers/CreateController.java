@@ -10,6 +10,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import Main.Utils.*;
 
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -34,8 +35,9 @@ public class CreateController {
     @FXML
     private PasswordField passwordField;
 
-    public void createAccount(ActionEvent e) throws SQLException {
+    public void createAccount(ActionEvent e) throws SQLException, IOException {
         Create create = new Create();
+        LoginController login = new LoginController();
 
         // Creating hash code for the password
         String password_hash = BCrypt.hashpw(passwordField.getText(), BCrypt.gensalt(12));
@@ -72,6 +74,7 @@ public class CreateController {
                 cityField.getValue(),
                 dateField.getValue()
         ));
+        login.switchToLoginScene(e);
     }
 
     // initialize function ( executed when the fxml file is loaded )
@@ -103,13 +106,11 @@ public class CreateController {
     public void setCityValue(ActionEvent e) throws SQLException {
         Connection connection = DBconnect.getConnection();
         String state = stateField.getValue();
-        String query = "SELECT name FROM cities WHERE state_id = (SELECT id FROM states WHERE name = ?)";
+        String query = "SELECT name FROM city WHERE state_id = (SELECT id FROM states WHERE name = ?)";
         ArrayList<String> city = new ArrayList<>();
 
         PreparedStatement statement = connection.prepareStatement(query);
         statement.setString(1, state);
-
-        System.out.println(statement);
 
         ResultSet set = statement.executeQuery();
 

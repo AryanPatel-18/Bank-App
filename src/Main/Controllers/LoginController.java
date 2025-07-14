@@ -52,7 +52,7 @@ public class LoginController {
         }
 
         String password = getPasswordHash(email);
-
+//        BCrypt.hashpw("asdnrad",BCrypt.gensalt(12));
         // Checking the password and sending the otp
         if(BCrypt.checkpw(passwordField.getText(), password)){
             otpController o = new otpController();

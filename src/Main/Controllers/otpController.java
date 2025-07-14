@@ -41,12 +41,14 @@ public class otpController {
     public void checkOtpResetPassword(ActionEvent e) throws IOException {
         mailSender m = new mailSender();
         int enteredOtp = Integer.parseInt(otpField.getText().trim());
+        System.out.println(enteredOtp);
         if(m.checkOtp(enteredOtp, email)){
             System.out.println("valid otp entered");
             login.switchToResetpasswordScreen(e);
         }else{
             System.out.println("invalid otp");
             login.switchToLoginScene(e);
+            System.out.println(email);
         }
     }
 

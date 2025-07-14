@@ -28,15 +28,21 @@ public class mailSender {
     public mailSender(){}
 
     // Used for checking the otp
-    public boolean checkOtp(int enteredOtp, String email) throws IOException{
-        Path path = Paths.get(String.format("C:\\Users\\aryan\\OneDrive\\Desktop\\Coding\\Java\\Java-2-Project\\BankApp\\src\\Resources\\Otps\\%s.txt",email.split("@")[0]));
-        BufferedReader reader = new BufferedReader(new FileReader(String.format("C:\\Users\\aryan\\OneDrive\\Desktop\\Coding\\Java\\Java-2-Project\\BankApp\\src\\Resources\\Otps\\%s.txt",email.split("@")[0])));
-        int actualOtp = Integer.parseInt(reader.readLine());
-        reader.close();
-        try{
-            Files.delete(path);
-        }catch (IOException e){
-            System.out.println("The OTP file was not deleted");
+    public boolean checkOtp(int enteredOtp, String email){
+        int actualOtp = 0;
+        try {
+            String filename = email.split("@")[0];
+            Path path = Paths.get(String.format("src/Resources/Otps/%s.txt",filename));
+            BufferedReader reader = new BufferedReader(new FileReader(String.format("src/Resources/Otps/%s.txt",filename)));
+            actualOtp = Integer.parseInt(reader.readLine());
+            reader.close();
+            try{
+                Files.delete(path);
+            }catch (IOException e){
+                System.out.println("There was a problem while deleting the file");
+            }
+        } catch (IOException e) {
+            System.out.println("There was a problem while checking the file");
         }
         return actualOtp == enteredOtp;
     }
@@ -120,11 +126,11 @@ class Delete extends Thread{
 
     // Simple thread methods that runs the .delete() operation on the otp file
     public void run(){
-         File file = getOtpFile();
+        File file = getOtpFile();
         try {
             // Wait for 10 minutes (600,000 milliseconds)
 //            Thread.sleep(10 * 60 * 1000);
-            Thread.sleep(20000);
+            Thread.sleep(10*60*1000);
             // Delete the file
             if (file.exists()) {
                 if (file.delete()) {
