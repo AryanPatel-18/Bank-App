@@ -1,7 +1,7 @@
 package Main.Controllers.FormControllers;
 
 import Main.DBconnect;
-import Main.Utils.BCrypt;
+import Main.FormUtils.BCrypt;
 import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -64,7 +64,7 @@ public class ResetPasswordController {
                 login.switchToLoginScene(e);
             }
         }else{
-            Main.Utils.Validators.showInfo("Password Mismatch", " Please make sure both the passwords are the same");
+            Main.FormUtils.Validators.showInfo("Password Mismatch", " Please make sure both the passwords are the same");
             newPassword.clear();
             confirmPassword.clear();
         }

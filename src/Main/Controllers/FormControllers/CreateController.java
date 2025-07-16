@@ -2,8 +2,8 @@ package Main.Controllers.FormControllers;
 
 import Main.DBconnect;
 import Main.Models.User;
-import Main.Utils.BCrypt;
-import Main.Utils.Create;
+import Main.FormUtils.BCrypt;
+import Main.FormUtils.Create;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
@@ -46,21 +46,21 @@ public class CreateController {
 
         // Validating all the fields
         if(checkAllFields()){
-            Main.Utils.Validators.showInfo("Empty Fields", "Please enter all the values");
+            Main.FormUtils.Validators.showInfo("Empty Fields", "Please enter all the values");
             return;
         }
-        if(Main.Utils.Validators.isValidEmail(email)){
-            Main.Utils.Validators.showInfo("Invalid Email", "The email you have entered is not valid");
+        if(Main.FormUtils.Validators.isValidEmail(email)){
+            Main.FormUtils.Validators.showInfo("Invalid Email", "The email you have entered is not valid");
             emailField.clear();
             return;
         }
-        if(Main.Utils.Validators.checkEmail(email)){
-            Main.Utils.Validators.showInfo("Invalid Email", "The email you have entered already exists");
+        if(Main.FormUtils.Validators.checkEmail(email)){
+            Main.FormUtils.Validators.showInfo("Invalid Email", "The email you have entered already exists");
             emailField.clear();
             return;
         }
-        if(!Main.Utils.Validators.isValidIndianPhoneNumber(numberField.getText())){
-            Main.Utils.Validators.showInfo("Invalid number", "The number you have entered is not valid");
+        if(!Main.FormUtils.Validators.isValidIndianPhoneNumber(numberField.getText())){
+            Main.FormUtils.Validators.showInfo("Invalid number", "The number you have entered is not valid");
             numberField.clear();
             return;
         }

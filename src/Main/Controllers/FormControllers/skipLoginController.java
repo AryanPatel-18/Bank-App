@@ -1,7 +1,7 @@
 package Main.Controllers.FormControllers;
 
 import Main.Main;
-import Main.Utils.mailSender;
+import Main.FormUtils.mailSender;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;

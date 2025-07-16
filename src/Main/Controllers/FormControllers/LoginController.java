@@ -1,10 +1,10 @@
 package Main.Controllers.FormControllers;
 
 import Main.DBconnect;
-import Main.Utils.BCrypt;
-import Main.Utils.RememberMe;
-import Main.Utils.Validators;
-import Main.Utils.mailSender;
+import Main.FormUtils.BCrypt;
+import Main.FormUtils.RememberMe;
+import Main.FormUtils.Validators;
+import Main.FormUtils.mailSender;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -65,7 +65,7 @@ public class LoginController {
             switchToOtpScene(event);
             o.setEmail(email);
         }else{
-            Main.Utils.Validators.showInfo("Login Failed", "password entered was incorrect please try again");
+            Main.FormUtils.Validators.showInfo("Login Failed", "password entered was incorrect please try again");
             passwordField.clear();
         }
     }
@@ -77,7 +77,7 @@ public class LoginController {
         mailSender mail = new mailSender(resetEmail);
 
         if(resetEmail.isEmpty()){
-            Main.Utils.Validators.showInfo("No Input", "Please enter the email");
+            Main.FormUtils.Validators.showInfo("No Input", "Please enter the email");
             emailField.clear();
             return;
         }

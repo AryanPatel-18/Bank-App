@@ -1,4 +1,4 @@
-package Main.Utils;
+package Main.FormUtils;
 
 import Main.DBconnect;
 import javafx.scene.control.Alert;

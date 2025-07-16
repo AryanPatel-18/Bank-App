@@ -1,7 +1,7 @@
 package Main;
 
-import Main.Utils.RememberMe;
-import Main.Utils.mailSender;
+import Main.FormUtils.RememberMe;
+import Main.FormUtils.mailSender;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
