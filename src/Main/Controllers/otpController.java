@@ -1,5 +1,6 @@
 package Main.Controllers;
 
+import Main.Utils.RememberMe;
 import Main.Utils.mailSender;
 import javafx.animation.ScaleTransition;
 import javafx.event.ActionEvent;
@@ -22,17 +23,22 @@ public class otpController {
     @FXML
     private Label invalidMessage;
     public static String email;
+    public static boolean remember;
     LoginController login = new LoginController();
 
     // Checks the otp value from the text file in which it is temporarily saved
-    public void checkValue(ActionEvent e) throws IOException {
+    public void checkValue(ActionEvent e) throws Exception {
         mailSender m = new mailSender();
+        String actualEmail = remember?RememberMe.preferences.get(RememberMe.stored_email, null):email;
+
+
         int enteredOtp = Integer.parseInt(otpField.getText().trim());
-        if(m.checkOtp(enteredOtp, email)){
+        if(m.checkOtp(enteredOtp, actualEmail)){
             System.out.println("valid otp entered");
             login.switchToMainScene(e);
         }else{
             System.out.println("invalid otp");
+            if(remember) RememberMe.preferences.clear();
             login.switchToLoginScene(e);
         }
     }
@@ -88,6 +94,7 @@ public class otpController {
     void setEmail(String email){
         otpController.email = email;
     }
+    public static void setRemember(boolean value) {remember = value; }
 
 
 }

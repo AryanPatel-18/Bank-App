@@ -109,6 +109,31 @@ public class mailSender {
             e.printStackTrace();
         }
     }
+
+    public static void clearOtpFiles(){
+        String directoryPath = "src/Resources/Otps";
+        File directory = new File(directoryPath);
+
+        if (!directory.exists() || !directory.isDirectory()) {
+            System.out.println("Invalid directory: " + directoryPath);
+            return;
+        }
+
+        File[] files = directory.listFiles();
+
+        if (files != null) {
+            for (File file : files) {
+                if (file.isFile()) {
+                    boolean deleted = file.delete();
+                    if (deleted) {
+                        System.out.println("Deleted: " + file.getName());
+                    } else {
+                        System.out.println("Failed to delete: " + file.getName());
+                    }
+                }
+            }
+        }
+    }
 }
 
 // Delete class is created to basically delete the otp file after 10 minutes ( time can be changed )
@@ -146,4 +171,6 @@ class Delete extends Thread{
             System.out.println("Thread was interrupted before timeout.");
         }
     }
+
+
 }

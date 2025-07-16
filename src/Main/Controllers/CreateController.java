@@ -2,13 +2,14 @@ package Main.Controllers;
 
 import Main.DBconnect;
 import Main.Models.User;
+import Main.Utils.BCrypt;
+import Main.Utils.Create;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import Main.Utils.*;
 
 import java.io.IOException;
 import java.sql.*;

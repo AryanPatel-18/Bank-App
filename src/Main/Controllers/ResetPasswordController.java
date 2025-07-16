@@ -2,7 +2,6 @@ package Main.Controllers;
 
 import Main.DBconnect;
 import Main.Utils.BCrypt;
-import Main.Utils.Validators;
 import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

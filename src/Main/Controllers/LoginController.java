@@ -2,6 +2,7 @@ package Main.Controllers;
 
 import Main.DBconnect;
 import Main.Utils.BCrypt;
+import Main.Utils.RememberMe;
 import Main.Utils.Validators;
 import Main.Utils.mailSender;
 import javafx.event.ActionEvent;
@@ -12,6 +13,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -27,19 +29,18 @@ import java.util.Objects;
 
 public class LoginController {
     @FXML
+    private RadioButton rememberMe;
+    @FXML
     private Button submitButton;
     @FXML
     private TextField emailField;
     @FXML
     private PasswordField passwordField;
-    @FXML
-    private PasswordField newPassword;
-    @FXML
-    private PasswordField confirmPassword;
-    @FXML
-    private Button resetButton;
-    private String password;
+
+
+
     private static String resetEmail;
+    private static Scene scene;
 
     // Main login controller file ( activates when the submit button is clicked )
     public void login(ActionEvent event) throws Exception {
@@ -52,12 +53,15 @@ public class LoginController {
         }
 
         String password = getPasswordHash(email);
-//        BCrypt.hashpw("asdnrad",BCrypt.gensalt(12));
         // Checking the password and sending the otp
         if(BCrypt.checkpw(passwordField.getText(), password)){
             otpController o = new otpController();
             mailSender m = new mailSender(email);
             m.sendMail(email);
+            if(rememberMe.isSelected())
+                storeInformation();
+            else
+                RememberMe.preferences.clear();
             switchToOtpScene(event);
             o.setEmail(email);
         }else{
@@ -126,7 +130,6 @@ public class LoginController {
         Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         stage.setScene(scene);
     }
-
     // initialize function ( executed when the fxml file is loaded )
     @FXML
     private void initialize() {
@@ -154,6 +157,12 @@ public class LoginController {
         }
 
         return hash;
+    }
+
+    private void storeInformation() throws Exception {
+        String email = emailField.getText();
+        RememberMe.preferences.clear();
+        RememberMe.createUUID(email);
     }
 
 }

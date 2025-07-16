@@ -1,95 +1,131 @@
 package Main.Utils;
 
+import Main.DBconnect;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.prefs.Preferences;
+import java.util.ArrayList;
 import java.util.UUID;
-import Main.DBconnect;
-import Main.Utils.BCrypt;
+import java.util.prefs.Preferences;
 
-// This class is only used for remember me feature in the login form
-// This will create a random number and save it in the local machine along with a timestamp
-// When the user open the app again it would check for the existence of that particular random number in the local machine
-// If a number exists it would compare the number in the db along with the timestamp at which the random number was created
-// With the current timestamp, This is done to allow the user to skip the login form
 
 public class RememberMe {
 
     // This is the object that would save the value in the local machine
-    private static final Preferences preferences = Preferences.userRoot().node("myapp/rememberMe");
-    private static final String uuid_name = "uuid";
+    public static final Preferences preferences = Preferences.userRoot().node("BankApp/rememberMe");
+    public static final String uuid_name = "uuid";
+    public static final String stored_email = "email";
+    public static final String time_refresh = "begin";
+    public static final String time_created = "create";
     private static final long duration = 1140; // Number of minutes in  a day
     private static final Connection connection = DBconnect.getConnection();
 
-    public static void createUUID(String email) throws SQLException {
-        // Creating the uuid number and saving it in the system
-        UUID uuid = UUID.randomUUID();
-        preferences.put(uuid_name, uuid.toString());
+    public static void createUUID(String email) throws Exception {
 
-        // saving the uuid in number in the database
+        // Will be used to Create UUID
+        UUID uuid = UUID.randomUUID();
+        long current_time = System.currentTimeMillis();
+
+        if(preferences.get(uuid_name, null) == null){
+            // Creates a refresh timer of 48 hours
+            // Basically after 48 hours the user would be forces to log in once again
+            preferences.putLong(time_refresh, current_time + (48*60*60*1000));
+        }
+
+        preferences.put(uuid_name, uuid.toString());
+        preferences.put(stored_email, email);
+        preferences.putLong(time_created, current_time);
+
+        // Adding these values to the database
         String query = "INSERT INTO uuids VALUES (?,?,?)";
-        String uuid_hash = BCrypt.hashpw(uuid.toString(), BCrypt.gensalt(12));
         PreparedStatement statement = connection.prepareStatement(query);
         statement.setString(1, email);
-        statement.setString(2, uuid_hash);
-        statement.setLong(3, System.currentTimeMillis());
+        statement.setString(2, BCrypt.hashpw(uuid.toString(), BCrypt.gensalt(12)));
+        statement.setLong(3, current_time);
 
         int rows = statement.executeUpdate();
-        System.out.println(rows>0?"Added the values":"Not added the values");
+        deleteToken(email);
+
+
+//        System.out.println(rows>0?"Added Values":"Not added values");
     }
 
     public static boolean checkUUID(String email) throws SQLException {
-        String query = "SELECT * FROM uuids WHERE email = ?";
-        long currentTimestamp = System.currentTimeMillis();
-        String localUUID = preferences.get(uuid_name, null);
-        String storedUUIDhash = "";
-        long storedTimestamp = 0;
+        String query = "SELECT uuid FROM uuids WHERE email = ? ORDER BY timestamp DESC LIMIT 1";
+        String latest_uuid_hash = "";
+        String stored_uuid = preferences.get(uuid_name, null);
 
-        if(localUUID == null || localUUID.isEmpty()) return false;
+        // Returning false if there is not uuid stored in the local machine
+        if(stored_uuid == null)
+            return false;
 
+        if(!validRefreshTime())
+            return false;
+
+        // Fetching the latest uuid from the database
         PreparedStatement statement = connection.prepareStatement(query);
         statement.setString(1, email);
         ResultSet set = statement.executeQuery();
 
-        while(set.next()){
-            storedTimestamp = set.getLong("timestamp");
-            storedUUIDhash = set.getString("uuid");
-        }
-
-        if(BCrypt.checkpw(localUUID, storedUUIDhash)){
-            if((currentTimestamp - storedTimestamp) < duration*60*1000){
-                return true;
-            }
-            deleteToken(email);
-        }
-        return false;
+        if(set.next())
+            latest_uuid_hash = set.getString("uuid");
+        else
+            return false;
+        return BCrypt.checkpw(stored_uuid, latest_uuid_hash);
     }
 
     public static void deleteToken(String email) throws SQLException{
+        // Periodically delete the tokens from the database
+        // To only keep 10 tokens at a time
+        ArrayList<String> uuid_hashes = new ArrayList<>();
+        String query = "SELECT * FROM uuids WHERE email  = ? ORDER BY timestamp DESC";
+        String deleteQuery = "DELETE FROM uuids WHERE email = ? AND uuid NOT IN (?,?,?,?,?,?,?,?,?,?)";
 
-        //Delete from database
-        String query = "DELETE FROM uuids WHERE email = ?";
+
         PreparedStatement statement = connection.prepareStatement(query);
-        statement.setString(1, email);
-        statement.executeUpdate();
+        PreparedStatement deleteStatement = connection.prepareStatement(deleteQuery);
 
-        // Removing from preferences
-        preferences.remove(uuid_name);
+        statement.setString(1, email);
+        ResultSet set = statement.executeQuery();
+
+        // Getting the top 10 uuids from the database
+        int count = 0;
+        while(set.next()){
+            uuid_hashes.add(set.getString("uuid"));
+            count++;
+            if(count == 10) break;
+        }
+
+        // Deleting the older uuids ( Besides the top 10 )
+        if(uuid_hashes.size() == 10){
+            // Setting all the uuids in the prepared statement
+            deleteStatement.setString(1, email);
+            for(int i = 2;  i <= 11 ; i++){
+                deleteStatement.setString(i,uuid_hashes.get(i-2));
+            }
+            int rows = deleteStatement.executeUpdate();
+//            System.out.println(rows>0?"Deleted the older values":"Did not delete the older values");
+        }
+
+
     }
 
-    public static boolean hasUUID(){
-        String check = preferences.get(uuid_name, null);
-        return !(check == null);
+    // Just checking the refresh time that is present in the local storage is valid or not
+    public static boolean validRefreshTime(){
+        return !(preferences.getLong(time_refresh, 0) < System.currentTimeMillis());
     }
 
     public static void main(String[] args) throws Exception {
-//        createUUID("randomemail@gmail.com");
-//        deleteToken("randomemail@gmail.com");
-        createUUID("aryanpatel2593@gmail.com");
-        //21379b1b-379d-4c1b-8e33-6f0ca02d7793
+//        System.out.println(preferences.get(stored_email, null));
+//        preferences.clear();
         System.out.println(preferences.get(uuid_name, null));
+        System.out.println(preferences.get(stored_email, null));
+        System.out.println(preferences.getLong(time_refresh, 0));
+        System.out.println(preferences.getLong(time_created, 0));
+//        deleteToken("aryanpatel2593@gmail.com");
     }
+
 
 }
