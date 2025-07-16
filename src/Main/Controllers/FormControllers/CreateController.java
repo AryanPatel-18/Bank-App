@@ -1,4 +1,4 @@
-package Main.Controllers;
+package Main.Controllers.FormControllers;
 
 import Main.DBconnect;
 import Main.Models.User;

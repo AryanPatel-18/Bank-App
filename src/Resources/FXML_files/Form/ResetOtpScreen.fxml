@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="268.0" prefWidth="350.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Main.Controllers.otpController">
+<AnchorPane prefHeight="268.0" prefWidth="350.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Main.Controllers.FormControllers.otpController">
    <children>
       <TextField fx:id="otpField" alignment="CENTER" layoutX="101.0" layoutY="83.0" promptText="Enter OTP" />
       <Button fx:id="submitButton" layoutX="148.0" layoutY="155.0" mnemonicParsing="false" onAction="#checkOtpResetPassword" text="Submit" />

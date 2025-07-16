@@ -1,4 +1,4 @@
-package Main.Controllers;
+package Main.Controllers.FormControllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;

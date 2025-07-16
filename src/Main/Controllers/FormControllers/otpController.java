@@ -1,4 +1,4 @@
-package Main.Controllers;
+package Main.Controllers.FormControllers;
 
 import Main.Utils.RememberMe;
 import Main.Utils.mailSender;

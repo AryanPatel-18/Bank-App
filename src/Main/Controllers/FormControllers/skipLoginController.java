@@ -1,4 +1,4 @@
-package Main.Controllers;
+package Main.Controllers.FormControllers;
 
 import Main.Main;
 import Main.Utils.mailSender;

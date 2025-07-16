@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="loginPane" prefHeight="402.0" prefWidth="402.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Main.Controllers.LoginController">
+<AnchorPane fx:id="loginPane" prefHeight="402.0" prefWidth="402.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Main.Controllers.FormControllers.LoginController">
     <children>
         <TextField fx:id="emailField" layoutX="76.0" layoutY="131.0" prefHeight="25.0" prefWidth="250.0" />
         <Label layoutX="73.0" layoutY="102.0" style="-fx-font-weight: bold; -fx-font-family: sans-serif;" text="Email" textAlignment="CENTER">

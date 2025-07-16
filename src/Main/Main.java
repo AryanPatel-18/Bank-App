@@ -2,14 +2,11 @@ package Main;
 
 import Main.Utils.RememberMe;
 import Main.Utils.mailSender;
-import Main.Controllers.otpController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
-import java.util.prefs.BackingStoreException;
 
 // Main File that contains the psvm function for execution
 // Will only be used once to launch the application rest will be done by other classes
@@ -17,7 +14,7 @@ import java.util.prefs.BackingStoreException;
 public class Main extends Application {
 
     public static String stored_email = RememberMe.preferences.get(RememberMe.stored_email, null);
-    
+
     @Override
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Resources/FXML_files/Form/login.fxml"));
