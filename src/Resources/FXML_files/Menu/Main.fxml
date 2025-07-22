@@ -2,14 +2,13 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="417.0" prefWidth="384.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Main.Controllers.MainControllers.MainController">
    <children>
-      <Circle fill="#f5c73a" layoutX="51.0" layoutY="54.0" radius="22.0" stroke="BLACK" strokeType="INSIDE" />
       <Label fx:id="nameLabel" layoutX="78.0" layoutY="32.0" prefHeight="23.0" prefWidth="236.0" style="-fx-font-weight: bold;" text="Your Name">
          <font>
             <Font size="15.0" />
@@ -58,7 +57,8 @@
             <Font name="Arial Black" size="12.0" />
          </font>
       </Button>
-      <Button layoutX="64.0" layoutY="323.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="120.0" text="View Transactions" />
+      <Button layoutX="64.0" layoutY="323.0" mnemonicParsing="false" onAction="#loadTransactionScene" prefHeight="37.0" prefWidth="120.0" text="View Transactions" />
       <Button layoutX="203.0" layoutY="323.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="120.0" text="Money Transfer" />
+      <ImageView fx:id="profileImageView" fitHeight="50.0" fitWidth="50.0" layoutX="18.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true" style="-fx-fit-height: 50; -fx-fit-width: 50; -fx-preserve-ratio: true;" />
    </children>
 </AnchorPane>

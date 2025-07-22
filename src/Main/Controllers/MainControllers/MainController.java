@@ -5,37 +5,42 @@ import Main.Models.Transaction;
 import javafx.animation.ScaleTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.shape.Circle;
+import javafx.stage.Stage;
 import javafx.util.Duration;
-
-import javax.swing.*;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.*;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.Random;
 
 public class MainController {
 
-    @FXML
-    private Button viewIdLabel;
-    @FXML
-    private Label nameLabel;
-    @FXML
-    private Button addMoneyButton;
-    @FXML
-    private Label accountTypeLabel;
-    @FXML
-    private Label accountIDLabel;
-    @FXML
-    private Button showBalanceButton;
-    @FXML
-    private Label customerIDLabel;
-    @FXML
-    private Label moneyLabel;
+    @FXML private Button viewIdLabel;
+    @FXML private Label nameLabel;
+    @FXML private Button addMoneyButton;
+    @FXML private Label accountTypeLabel;
+    @FXML private Label accountIDLabel;
+    @FXML private Button showBalanceButton;
+    @FXML private Label customerIDLabel;
+    @FXML private Label moneyLabel;
+    @FXML private ImageView profileImageView;
+
     public static String email = "aryanpatel2593@gmail.com";
     public static int user_id;
     Connection connection = DBconnect.getConnection();
 
+    @FXML
     public void initialize() throws Exception{
         // Apply animation to all buttons
         addClickAnimation(viewIdLabel);
@@ -45,6 +50,30 @@ public class MainController {
         nameLabel.setText(getAAccountName());
         accountTypeLabel.setText(getAccountType());
         accountIDLabel.setText(getAccountId());
+
+        Random random = new Random();
+        int randomNumber = random.nextInt(6) + 1;
+        String query = "SELECT photo FROM profile_photos WHERE photo_id = ?";
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setInt(1, randomNumber);
+
+        ResultSet set = statement.executeQuery();
+
+        if(set.next()){
+            InputStream inputStream = set.getBinaryStream("photo");
+
+            // Load image directly from InputStream
+            Image image = new Image(inputStream);
+
+            profileImageView.setImage(image);
+
+            // Apply circular clip as before
+            double radius = profileImageView.getFitWidth() / 2;
+            Circle clip = new Circle(radius, radius, radius);
+            profileImageView.setClip(clip);
+        }
+
+
     }
 
     public static void setEmail(String email){
@@ -113,6 +142,13 @@ public class MainController {
 
     public void checkBalance(ActionEvent e) throws SQLException{
         moneyLabel.setText(checkBalance());
+    }
+
+    public void loadTransactionScene(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Resources/FXML_files/Menu/Transactions.fxml")));
+        Scene scene = new Scene(root);
+        Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
     }
 
     private String checkBalance() throws SQLException{

@@ -10,6 +10,27 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Transaction {
+    private final double amount;
+    private final String timestamp;
+    private final String senderAccount;
+    private final String receiverAccount;
+
+
+    public Transaction(double amount, String timestamp,String senderAccount, String receiverAccount) {
+        this.amount = amount;
+        this.timestamp = timestamp;
+        this.senderAccount = senderAccount;
+        this.receiverAccount = receiverAccount;
+    }
+
+
+    // Getters
+    public double getAmount() { return amount; }
+    public String getTimestamp() { return timestamp; }
+    public String getSenderAccount() { return senderAccount; }
+    public String getReceiverAccount() { return receiverAccount; }
+
+
     private static boolean udpateBalance(double amount, int userId, long senderID, long receiverID) throws SQLException {
         Connection connection = DBconnect.getConnection();
 
