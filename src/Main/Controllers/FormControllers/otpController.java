@@ -1,5 +1,6 @@
 package Main.Controllers.FormControllers;
 
+import Main.Controllers.MainControllers.MainController;
 import Main.FormUtils.RememberMe;
 import Main.FormUtils.mailSender;
 import javafx.animation.ScaleTransition;
@@ -35,6 +36,7 @@ public class otpController {
         int enteredOtp = Integer.parseInt(otpField.getText().trim());
         if(m.checkOtp(enteredOtp, actualEmail)){
             System.out.println("valid otp entered");
+            MainController.setEmail(actualEmail);
             login.switchToMainScene(e);
         }else{
             System.out.println("invalid otp");

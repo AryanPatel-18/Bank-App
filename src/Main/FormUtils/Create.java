@@ -1,6 +1,7 @@
 package Main.FormUtils;
 
 import Main.DBconnect;
+import Main.Models.BankAccount;
 import Main.Models.User;
 
 import java.sql.Connection;
@@ -39,6 +40,27 @@ public class Create {
         }else{
             System.out.println("The values were not added");
         }
+    }
+
+    private void createBankInfo(BankAccount account) throws SQLException{
+        Connection connection = DBconnect.getConnection();
+
+        String query = " INSERT INTO bank_account (account_number,user_id,account_type,status, balance) VALUES (?,?,?,?,?)";
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setLong(1, account.getAccount_number());
+        statement.setInt(2, account.getUser_id());
+        statement.setString(3, account.getAccount_type());
+        statement.setString(4, account.getStatus());
+        statement.setDouble(5, 0);
+
+        int row = statement.executeUpdate();
+
+        System.out.println(row>0?"Added the values":"Did not add the values");
+
+    }
+
+    public void createBankInfoCall(BankAccount account) throws SQLException{
+        createBankInfo(account);
     }
 
     public void createUserCall(User obj) throws SQLException {

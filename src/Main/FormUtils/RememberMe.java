@@ -120,11 +120,12 @@ public class RememberMe {
     public static void main(String[] args) throws Exception {
 //        System.out.println(preferences.get(stored_email, null));
 //        preferences.clear();
-        System.out.println(preferences.get(uuid_name, null));
-        System.out.println(preferences.get(stored_email, null));
-        System.out.println(preferences.getLong(time_refresh, 0));
-        System.out.println(preferences.getLong(time_created, 0));
+//        System.out.println(preferences.get(uuid_name, null));
+//        System.out.println(preferences.get(stored_email, null));
+//        System.out.println(preferences.getLong(time_refresh, 0));
+//        System.out.println(preferences.getLong(time_created, 0));
 //        deleteToken("aryanpatel2593@gmail.com");
+        preferences.clear();
     }
 
 

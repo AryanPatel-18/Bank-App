@@ -1,6 +1,7 @@
 package Main.Controllers.FormControllers;
 
 import Main.DBconnect;
+import Main.Models.BankAccount;
 import Main.Models.User;
 import Main.FormUtils.BCrypt;
 import Main.FormUtils.Create;
@@ -14,11 +15,14 @@ import javafx.scene.control.TextField;
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 // Create Controller file contains all the methods for the create user fxml form
 
 
 public class CreateController {
+    @FXML
+    private ComboBox<String> accountType;
     @FXML
     private TextField nameField;
     @FXML
@@ -75,6 +79,7 @@ public class CreateController {
                 cityField.getValue(),
                 dateField.getValue()
         ));
+        create.createBankInfoCall(new BankAccount(accountType.getValue()));
         login.switchToLoginScene(e);
     }
 
@@ -82,6 +87,7 @@ public class CreateController {
     @FXML
     public void initialize(){
         ArrayList<String> states = new ArrayList<>();
+        ArrayList<String> typesAccount = new ArrayList<>(Arrays.asList("Savings", "Current", "Fixed Deposit", "Recurring Deposit", "Salary", "Joint", "Demat", "Loan", "Overdraft", "Pension", "Minor", "Student"));
 
         // Setting the states in the state combo box
         try{
@@ -95,14 +101,15 @@ public class CreateController {
             }
 
             stateField.getItems().addAll(states);
-
+            accountType.getItems().addAll(typesAccount);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            System.out.println("An error occurred while fetching the states");;
         }
+
     }
 
 
-    // Setting the city values in the city combo box according to the value entered in the state combo box
+    // Setting the city values in the city combo box according to the value entered in the combo box
     @FXML
     public void setCityValue(ActionEvent e) throws SQLException {
         Connection connection = DBconnect.getConnection();
@@ -133,7 +140,8 @@ public class CreateController {
                 cityField.getValue() == null ||
                 stateField.getValue() == null ||
                 dateField.getValue() == null ||
-                addressField.getText().isEmpty()
+                addressField.getText().isEmpty()||
+                accountType.getValue() == null
         );
     }
 
