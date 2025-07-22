@@ -144,13 +144,19 @@ public class MainController {
         dialog.setHeaderText("Please enter the amount");
         dialog.setContentText("Amount : ");
 
+        String query = "SELECT account_number FROM bank_account WHERE user_id = " + user_id;
+        Statement statement = connection.createStatement();
+        ResultSet set = statement.executeQuery(query);
+
+
         Optional<String> result = dialog.showAndWait();
         double amount = result.isPresent()?Double.parseDouble(result.get()):0;
-        Transaction.updateBalanceCall(user_id, amount);
+        if(set.next())
+            Transaction.updateBalanceCall(user_id, amount, set.getLong(1), set.getLong(1));
         moneyLabel.setText(checkBalance());
     }
 
-    public void addMoneCall(ActionEvent e) throws SQLException {
+    public void addMoneyCall(ActionEvent e) throws SQLException {
         addMoney();
     }
 }

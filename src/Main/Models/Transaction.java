@@ -10,7 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Transaction {
-    private static boolean udpateBalance(double amount, int userId) throws SQLException {
+    private static boolean udpateBalance(double amount, int userId, long senderID, long receiverID) throws SQLException {
         Connection connection = DBconnect.getConnection();
 
         String query = "SELECT balance FROM bank_account WHERE user_id = ?";
@@ -37,25 +37,26 @@ public class Transaction {
         if(!(rows>0))
             return false;
 
-        updateTransactionLog(userId, amount);
+        updateTransactionLog(userId, amount, senderID, receiverID);
         return true;
     }
 
-    private static void updateTransactionLog(int userId, double amount) throws SQLException{
-        String query = "INSERT INTO transactions (user_id, transaction_type, amount ) VALUES (?,?,?)";
+    private static void updateTransactionLog(int userId, double amount, long senderId, long receiverId) throws SQLException{
+        String query = "INSERT INTO transactions (user_id, transaction_type, amount, sender_account, receiver_account ) VALUES (?,?,?,?,?)";
         Connection connection = DBconnect.getConnection();
         PreparedStatement statement = connection.prepareStatement(query);
         statement.setInt(1, userId);
         statement.setString(2, amount>0?"credit":"debit");
         statement.setDouble(3, amount);
-
+        statement.setLong(4, senderId);
+        statement.setLong(5, receiverId);
         int rows = statement.executeUpdate();
 
         System.out.println(rows>0?"added log":"couldn't add log");
     }
 
-    public static boolean updateBalanceCall(int user_id, double amount) throws SQLException{
+    public static boolean updateBalanceCall(int user_id, double amount, long senderId, long receiverId) throws SQLException{
 
-        return udpateBalance(amount, user_id);
+        return udpateBalance(amount, user_id, senderId, receiverId);
     }
 }

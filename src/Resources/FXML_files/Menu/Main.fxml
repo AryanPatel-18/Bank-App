@@ -42,7 +42,7 @@
             <Font name="Arial Black" size="16.0" />
          </font>
       </Label>
-      <Button fx:id="addMoneyButton" layoutX="248.0" layoutY="132.0" mnemonicParsing="false" onAction="#addMoneCall" style="-fx-background-radius: 50; -fx-background-color: transparent; -fx-border-style: solid; -fx-border-radius: 50; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 15, 0.2, 0, 4); -fx-font-weight: bold;" text="Add Money" />
+      <Button fx:id="addMoneyButton" layoutX="248.0" layoutY="132.0" mnemonicParsing="false" onAction="#addMoneyCall" style="-fx-background-radius: 50; -fx-background-color: transparent; -fx-border-style: solid; -fx-border-radius: 50; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 15, 0.2, 0, 4); -fx-font-weight: bold;" text="Add Money" />
       <Label layoutX="46.0" layoutY="218.0" prefHeight="30.0" prefWidth="19.0" text="₹">
          <font>
             <Font name="Arial" size="22.0" />
