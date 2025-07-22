@@ -17,7 +17,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Resources/FXML_files/Menu/Main.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Resources/FXML_files/Form/login.fxml"));
         if(stored_email != null){
             if(RememberMe.checkUUID(stored_email)){
                 loader = new FXMLLoader(getClass().getResource("/Resources/FXML_files/Form/skipLogin.fxml"));

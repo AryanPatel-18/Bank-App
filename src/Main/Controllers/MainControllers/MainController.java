@@ -17,6 +17,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;
@@ -50,29 +52,7 @@ public class MainController {
         nameLabel.setText(getAAccountName());
         accountTypeLabel.setText(getAccountType());
         accountIDLabel.setText(getAccountId());
-
-        Random random = new Random();
-        int randomNumber = random.nextInt(6) + 1;
-        String query = "SELECT photo FROM profile_photos WHERE photo_id = ?";
-        PreparedStatement statement = connection.prepareStatement(query);
-        statement.setInt(1, randomNumber);
-
-        ResultSet set = statement.executeQuery();
-
-        if(set.next()){
-            InputStream inputStream = set.getBinaryStream("photo");
-
-            // Load image directly from InputStream
-            Image image = new Image(inputStream);
-
-            profileImageView.setImage(image);
-
-            // Apply circular clip as before
-            double radius = profileImageView.getFitWidth() / 2;
-            Circle clip = new Circle(radius, radius, radius);
-            profileImageView.setClip(clip);
-        }
-
+        getProfilePicture();
 
     }
 
@@ -194,5 +174,58 @@ public class MainController {
 
     public void addMoneyCall(ActionEvent e) throws SQLException {
         addMoney();
+    }
+
+    public void getProfilePicture() throws SQLException{
+        connection.setAutoCommit(false);
+        String query = "SELECT photo FROM user_photos WHERE user_id = ?";
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setInt(1, user_id);
+        ResultSet set = statement.executeQuery();
+        InputStream inputStream;
+
+        if(!set.next()){
+
+            Random random = new Random();
+            int randomNumber = random.nextInt(6) + 1;
+            String profileQuery = "SELECT photo FROM profile_photos WHERE photo_id = ?";
+            PreparedStatement imageStatement = connection.prepareStatement(profileQuery);
+            imageStatement.setInt(1, randomNumber);
+
+
+            ResultSet imageSet = imageStatement.executeQuery();
+
+            if(imageSet.next()){
+//                inputStream = imageSet.getBinaryStream("photo");
+                byte[] imageBytes = imageSet.getBytes("photo");
+                // Load image directly from InputStream
+                Image image = new Image(new ByteArrayInputStream(imageBytes));
+                profileImageView.setImage(image);
+                // Apply circular clip
+                double radius = profileImageView.getFitWidth() / 2;
+                Circle clip = new Circle(radius, radius, radius);
+                profileImageView.setClip(clip);
+
+                String insertQuery = "INSERT INTO user_photos VALUES (?,?)";
+                PreparedStatement insertStatement = connection.prepareStatement(insertQuery);
+                insertStatement.setInt(1, user_id);
+                insertStatement.setBytes(2, imageBytes);
+
+                int rows = insertStatement.executeUpdate();
+
+                System.out.println(rows>0?"Added the profile photo":"Could not add the profile photo");
+            }
+        }else{
+            byte[] imageBytes = set.getBytes("photo");
+            // Load image directly from InputStream
+            Image image = new Image(new ByteArrayInputStream(imageBytes));
+            profileImageView.setImage(image);
+            // Apply circular clip
+            double radius = profileImageView.getFitWidth() / 2;
+            Circle clip = new Circle(radius, radius, radius);
+            profileImageView.setClip(clip);
+        }
+        connection.commit();
+        connection.setAutoCommit(true);
     }
 }
