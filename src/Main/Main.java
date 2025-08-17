@@ -24,12 +24,11 @@ public class Main extends Application {
                 RememberMe.createUUID(stored_email);
             }
         }
-
-
         Parent root = loader.load();
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Bank App");
+        primaryStage.setResizable(false);
         primaryStage.show();
 
 

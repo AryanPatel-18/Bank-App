@@ -28,11 +28,14 @@ public class Validators {
     public static boolean checkEmail(String email) throws SQLException {
         Connection con = DBconnect.getConnection();
         String query = String.format("SELECT * FROM users WHERE email = '%s'",email);
+        String adminQuery = String.format("SELECT * FROM admin_accounts WHERE email = '%s'",email);
 
         Statement statement = con.createStatement();
+        Statement adminStatement = con.createStatement();
         ResultSet rs = statement.executeQuery(query);
+        ResultSet rsa = adminStatement.executeQuery(adminQuery);
 
-        return rs.next();
+        return rs.next() || rsa.next();
     }
 
     public static boolean isValidIndianPhoneNumber(String number) {

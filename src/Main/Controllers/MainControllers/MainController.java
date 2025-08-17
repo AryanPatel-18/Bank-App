@@ -1,5 +1,6 @@
 package Main.Controllers.MainControllers;
 
+import Main.Controllers.FormControllers.LoginController;
 import Main.DBconnect;
 import Main.Models.Transaction;
 import javafx.animation.ScaleTransition;
@@ -24,7 +25,11 @@ import java.io.InputStream;
 import java.sql.*;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Random;
+import java.util.PropertyPermission;
+import java.util.prefs.Preferences;
+
+import static Main.FormUtils.RememberMe.preferences;
+
 
 public class MainController {
 
@@ -36,6 +41,9 @@ public class MainController {
     @FXML private Button showBalanceButton;
     @FXML private Label customerIDLabel;
     @FXML private Label moneyLabel;
+    @FXML private Label depositLabel;
+    @FXML private Label withdrawLabel;
+    @FXML private Label TransactionLabel;
     @FXML private ImageView profileImageView;
 
     public static String email = "aryanpatel2593@gmail.com";
@@ -53,7 +61,7 @@ public class MainController {
         accountTypeLabel.setText(getAccountType());
         accountIDLabel.setText(getAccountId());
         getProfilePicture();
-
+        getValues();
     }
 
     public static void setEmail(String email){
@@ -170,6 +178,7 @@ public class MainController {
         if(set.next())
             Transaction.updateBalanceCall(user_id, amount, set.getLong(1), set.getLong(1));
         moneyLabel.setText(checkBalance());
+        getValues();
     }
 
     public void addMoneyCall(ActionEvent e) throws SQLException {
@@ -183,39 +192,7 @@ public class MainController {
         statement.setInt(1, user_id);
         ResultSet set = statement.executeQuery();
         InputStream inputStream;
-
-        if(!set.next()){
-
-            Random random = new Random();
-            int randomNumber = random.nextInt(6) + 1;
-            String profileQuery = "SELECT photo FROM profile_photos WHERE photo_id = ?";
-            PreparedStatement imageStatement = connection.prepareStatement(profileQuery);
-            imageStatement.setInt(1, randomNumber);
-
-
-            ResultSet imageSet = imageStatement.executeQuery();
-
-            if(imageSet.next()){
-//                inputStream = imageSet.getBinaryStream("photo");
-                byte[] imageBytes = imageSet.getBytes("photo");
-                // Load image directly from InputStream
-                Image image = new Image(new ByteArrayInputStream(imageBytes));
-                profileImageView.setImage(image);
-                // Apply circular clip
-                double radius = profileImageView.getFitWidth() / 2;
-                Circle clip = new Circle(radius, radius, radius);
-                profileImageView.setClip(clip);
-
-                String insertQuery = "INSERT INTO user_photos VALUES (?,?)";
-                PreparedStatement insertStatement = connection.prepareStatement(insertQuery);
-                insertStatement.setInt(1, user_id);
-                insertStatement.setBytes(2, imageBytes);
-
-                int rows = insertStatement.executeUpdate();
-
-                System.out.println(rows>0?"Added the profile photo":"Could not add the profile photo");
-            }
-        }else{
+        if(set.next()){
             byte[] imageBytes = set.getBytes("photo");
             // Load image directly from InputStream
             Image image = new Image(new ByteArrayInputStream(imageBytes));
@@ -227,5 +204,67 @@ public class MainController {
         }
         connection.commit();
         connection.setAutoCommit(true);
+    }
+
+    void getValues() throws SQLException{
+        String query = "SELECT user_id FROM users WHERE email = ?";
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setString(1, email);
+        ResultSet set = statement.executeQuery();
+        int userId = 0;
+
+        if(set.next())
+            userId = set.getInt(1);
+
+        String queryValues = "SELECT get_transaction_sum(?,?)";
+        PreparedStatement debitStatement = connection.prepareStatement(queryValues);
+        PreparedStatement creditStatement = connection.prepareStatement(queryValues);
+        debitStatement.setInt(1, userId);
+        creditStatement.setInt(1, userId);
+        debitStatement.setString(2, "debit");
+        creditStatement.setString(2, "credit");
+        double creditValue = 0;
+        double debitValue = 0;
+
+        ResultSet debitSet = debitStatement.executeQuery();
+        ResultSet creditSet = creditStatement.executeQuery();
+
+        if(debitSet.next())
+            debitValue = Math.abs(debitSet.getDouble(1));
+        if(creditSet.next())
+            creditValue = Math.abs(creditSet.getDouble(1));
+
+        String lastStatementQuery = "SELECT amount FROM transactions WHERE user_id = ? ORDER BY timestamp DESC LIMIT 1";
+        PreparedStatement transactionStatement = connection.prepareStatement(lastStatementQuery);
+        transactionStatement.setInt(1, userId);
+        ResultSet lastSet = transactionStatement.executeQuery();
+        double lastTransactionValue = 0;
+
+        if(lastSet.next())
+            lastTransactionValue = Math.abs(lastSet.getDouble(1));
+
+        depositLabel.setText(String.valueOf(creditValue));
+        withdrawLabel.setText(String.valueOf(debitValue));
+        TransactionLabel.setText(String.valueOf(lastTransactionValue));
+    }
+
+    public void switchToProfileScene(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Resources/FXML_files/Menu/CustomerInformation.fxml")));
+        Scene scene = new Scene(root);
+        Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+    }
+
+    public void switchToTransferScene(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Resources/FXML_files/Menu/TransferMoney.fxml")));
+        Scene scene = new Scene(root);
+        Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+    }
+
+    public void logout(ActionEvent event) throws Exception{
+        LoginController login = new LoginController();
+        login.switchToLoginScene(event);
+        preferences.clear();
     }
 }

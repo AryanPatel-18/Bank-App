@@ -80,7 +80,7 @@ public class CreateController {
                 dateField.getValue()
         ));
         create.createBankInfoCall(new BankAccount(accountType.getValue()));
-        login.switchToLoginScene(e);
+        login.switchToAdminScene(e);
     }
 
     // initialize function ( executed when the fxml file is loaded )

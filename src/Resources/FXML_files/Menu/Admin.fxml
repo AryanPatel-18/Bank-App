@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane prefHeight="318.0" prefWidth="379.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Main.Controllers.MainControllers.AdminController">
+   <children>
+      <Button layoutX="117.0" layoutY="118.0" mnemonicParsing="false" text="View Customer Information" />
+      <Button layoutX="122.0" layoutY="61.0" mnemonicParsing="false" onAction="#switchToCreateAccountScene" text="Create Customer Account" />
+      <Button layoutX="124.0" layoutY="174.0" mnemonicParsing="false" text="Update Customer Details" />
+      <Button layoutX="141.0" layoutY="228.0" mnemonicParsing="false" text="Suspend Accounts" />
+   </children>
+</AnchorPane>
