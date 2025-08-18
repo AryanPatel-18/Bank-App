@@ -84,21 +84,6 @@ public class otpController {
                 invalidMessage.setOpacity(1);
             }
         });
-
-        // Simple animation ( need to be replaced )
-        submitButton.setOnMousePressed(mouseEvent ->{
-            ScaleTransition st = new ScaleTransition(Duration.millis(100),submitButton);
-            st.setToX(0.98);
-            st.setToY(0.98);
-            st.play();
-        });
-
-        submitButton.setOnMouseReleased(mouseEvent -> {
-            ScaleTransition st = new ScaleTransition(Duration.millis(100), submitButton);
-            st.setToX(1);
-            st.setToY(1);
-            st.play();
-        });
     }
 
     // For setting the static email variable

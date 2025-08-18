@@ -66,14 +66,14 @@ public class mailSender {
     // Sending the mail
     public void sendMail(String email) {
 
-        // SMTP server settings
+
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.smtp.host", "smtp.gmail.com");
         props.put("mail.smtp.port", "587");
 
-        // Create a session with authentication
+
         Session session = Session.getInstance(props,
                 new Authenticator() {
                     protected PasswordAuthentication getPasswordAuthentication() {
@@ -82,7 +82,7 @@ public class mailSender {
                 });
 
         try {
-            // Create a message
+
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(username));
             message.setRecipients(
@@ -100,9 +100,8 @@ public class mailSender {
                     "Sincerely,\n" +
                     "BankApp Security Team");
 
-            // Send the message
-            Transport.send(message);
 
+            Transport.send(message);
             System.out.println("Email sent successfully.");
 
         } catch (MessagingException e) {
@@ -153,8 +152,6 @@ class Delete extends Thread{
     public void run(){
         File file = getOtpFile();
         try {
-            // Wait for 10 minutes (600,000 milliseconds)
-//            Thread.sleep(10 * 60 * 1000);
             Thread.sleep(10*60*1000);
             // Delete the file
             if (file.exists()) {

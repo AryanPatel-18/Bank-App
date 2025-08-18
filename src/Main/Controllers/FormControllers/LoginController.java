@@ -55,7 +55,6 @@ public class LoginController {
         String password = getPasswordHash(email);
         System.out.println("Password : "+password);
         // Checking the password and sending the otp
-        System.out.println(password);
         if(BCrypt.checkpw(passwordField.getText(), password)){
             otpController o = new otpController();
             mailSender m = new mailSender(email);

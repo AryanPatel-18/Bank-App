@@ -42,10 +42,6 @@ public class CustomerInformation {
             // Load image directly from InputStream
             Image image = new Image(new ByteArrayInputStream(imageBytes));
             profileImageView.setImage(image);
-            // Apply circular clip
-//            double radius = profileImageView.getFitWidth() / 2;
-//            Circle clip = new Circle(radius, radius, radius);
-//            profileImageView.setClip(clip);
         }
         connection.commit();
         connection.setAutoCommit(true);

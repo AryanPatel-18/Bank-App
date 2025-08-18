@@ -51,10 +51,7 @@ public class MainController {
     @FXML
     public void initialize() throws Exception{
         // Apply animation to all buttons
-        addClickAnimation(viewIdLabel);
         getUserId();
-        addClickAnimation(addMoneyButton);
-        addClickAnimation(showBalanceButton);
         nameLabel.setText(getAAccountName());
         accountTypeLabel.setText(getAccountType());
         accountIDLabel.setText(getAccountId());
@@ -76,21 +73,6 @@ public class MainController {
             MainController.user_id = set.getInt(1);
         else
             System.out.println("There was a problem in fetching the user id ");
-    }
-
-
-    private void addClickAnimation(javafx.scene.Node node) {
-        node.setOnMouseClicked(event -> {
-            ScaleTransition st = new ScaleTransition(Duration.millis(150), node);
-            st.setFromX(1.0);
-            st.setFromY(1.0);
-            st.setToX(1.05);   // Scale up to 120%
-            st.setToY(1.05);
-            st.setAutoReverse(true);
-            st.setCycleCount(2);  // Scale up and back down
-
-            st.play();
-        });
     }
 
     private String getAAccountName() throws SQLException {

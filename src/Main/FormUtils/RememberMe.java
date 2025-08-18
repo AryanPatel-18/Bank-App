@@ -45,7 +45,7 @@ public class RememberMe {
         statement.setString(2, BCrypt.hashpw(uuid.toString(), BCrypt.gensalt(12)));
         statement.setLong(3, current_time);
 
-        int rows = statement.executeUpdate();
+        statement.executeUpdate();
         deleteToken(email);
 
 
@@ -105,7 +105,7 @@ public class RememberMe {
             for(int i = 2;  i <= 11 ; i++){
                 deleteStatement.setString(i,uuid_hashes.get(i-2));
             }
-            int rows = deleteStatement.executeUpdate();
+            deleteStatement.executeUpdate();
 //            System.out.println(rows>0?"Deleted the older values":"Did not delete the older values");
         }
 
@@ -118,13 +118,6 @@ public class RememberMe {
     }
 
     public static void main(String[] args) throws Exception {
-//        System.out.println(preferences.get(stored_email, null));
-//        preferences.clear();
-//        System.out.println(preferences.get(uuid_name, null));
-//        System.out.println(preferences.get(stored_email, null));
-//        System.out.println(preferences.getLong(time_refresh, 0));
-//        System.out.println(preferences.getLong(time_created, 0));
-//        deleteToken("aryanpatel2593@gmail.com");
         preferences.clear();
     }
 
