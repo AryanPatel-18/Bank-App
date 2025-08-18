@@ -1,6 +1,7 @@
 package Main.FormUtils;
 
 import Main.DBconnect;
+import Main.DataStructures.MyStack;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -79,7 +80,7 @@ public class RememberMe {
     public static void deleteToken(String email) throws SQLException{
         // Periodically delete the tokens from the database
         // To only keep 10 tokens at a time
-        ArrayList<String> uuid_hashes = new ArrayList<>();
+        MyStack stack = new MyStack();
         String query = "SELECT * FROM uuids WHERE email  = ? ORDER BY timestamp DESC";
         String deleteQuery = "DELETE FROM uuids WHERE email = ? AND uuid NOT IN (?,?,?,?,?,?,?,?,?,?)";
 
@@ -93,17 +94,17 @@ public class RememberMe {
         // Getting the top 10 uuids from the database
         int count = 0;
         while(set.next()){
-            uuid_hashes.add(set.getString("uuid"));
+            stack.push(set.getString("uuid"));
             count++;
             if(count == 10) break;
         }
 
         // Deleting the older uuids ( Besides the top 10 )
-        if(uuid_hashes.size() == 10){
+        if(stack.size() == 10){
             // Setting all the uuids in the prepared statement
             deleteStatement.setString(1, email);
             for(int i = 2;  i <= 11 ; i++){
-                deleteStatement.setString(i,uuid_hashes.get(i-2));
+                deleteStatement.setString(i,stack.pop());
             }
             deleteStatement.executeUpdate();
 //            System.out.println(rows>0?"Deleted the older values":"Did not delete the older values");

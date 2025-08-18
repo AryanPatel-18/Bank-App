@@ -1,6 +1,7 @@
 package Main.Controllers.FormControllers;
 
 import Main.DBconnect;
+import Main.DataStructures.MyArrayList;
 import Main.FormUtils.BCrypt;
 import Main.FormUtils.Create;
 import Main.Models.BankAccount;
@@ -16,6 +17,7 @@ import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 
 // Create Controller file contains all the methods for the create user fxml form
 
@@ -115,7 +117,7 @@ public class CreateController {
         Connection connection = DBconnect.getConnection();
         String state = stateField.getValue();
         String query = "SELECT name FROM city WHERE state_id = (SELECT id FROM states WHERE name = ?)";
-        ArrayList<String> city = new ArrayList<>();
+        MyArrayList city = new MyArrayList();
 
         PreparedStatement statement = connection.prepareStatement(query);
         statement.setString(1, state);
@@ -127,7 +129,7 @@ public class CreateController {
         }
 
         cityField.getItems().clear();
-        cityField.getItems().addAll(city);
+        cityField.getItems().addAll(city.toObservableList());
     }
 
     // Validating if all the fields have values or not

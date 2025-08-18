@@ -2,6 +2,7 @@ package Main.Controllers.MainControllers;
 
 import Main.Controllers.FormControllers.LoginController;
 import Main.DBconnect;
+import Main.FormUtils.Validators;
 import Main.Models.Transaction;
 import javafx.animation.ScaleTransition;
 import javafx.event.ActionEvent;
@@ -155,6 +156,11 @@ public class MainController {
 
         Optional<String> result = dialog.showAndWait();
         double amount = result.isPresent()?Double.parseDouble(result.get()):0;
+        if (amount <= 0) {
+            Main.FormUtils.Validators.showInfo("Invalid Value","Please enter a valid value");
+            return;
+        }
+
         if(set.next())
             Transaction.updateBalanceCall(user_id, amount, set.getLong(1), set.getLong(1));
         moneyLabel.setText(checkBalance());
