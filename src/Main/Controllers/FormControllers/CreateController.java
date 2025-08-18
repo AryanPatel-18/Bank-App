@@ -1,10 +1,10 @@
 package Main.Controllers.FormControllers;
 
 import Main.DBconnect;
-import Main.Models.BankAccount;
-import Main.Models.User;
 import Main.FormUtils.BCrypt;
 import Main.FormUtils.Create;
+import Main.Models.BankAccount;
+import Main.Models.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
@@ -144,6 +144,12 @@ public class CreateController {
                 accountType.getValue() == null
         );
     }
+    public void switchToAdminScene(ActionEvent event) throws Exception{
+        LoginController login = new LoginController();
+        login.switchToAdminScene(event);
+    }
+
+
 
 
 }

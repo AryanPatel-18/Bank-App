@@ -20,7 +20,7 @@ public class TransferController {
 
     public void switchToAdminScene(ActionEvent event) throws IOException {
         LoginController login = new LoginController();
-        login.switchToAdminScene(event);
+        login.switchToMainScene(event);
     }
 
     @FXML
@@ -126,7 +126,7 @@ public class TransferController {
         login.switchToMainScene(event);
     }
 
-    private boolean accountExists(long number) throws SQLException{
+    public boolean accountExists(long number) throws SQLException{
         String query = "SELECT * FROM bank_account WHERE account_number = ? ";
         PreparedStatement statement = connection.prepareStatement(query);
         statement.setLong(1, number);
@@ -143,7 +143,7 @@ public class TransferController {
         return set.getLong(1);
     }
 
-    private int getReceiverId(long number) throws SQLException{
+    public int getReceiverId(long number) throws SQLException{
         String query = "SELECT user_id FROM bank_account WHERE account_number = ?";
         PreparedStatement statement = connection.prepareStatement(query);
         statement.setLong(1, number);

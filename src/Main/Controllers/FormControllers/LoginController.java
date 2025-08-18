@@ -1,6 +1,5 @@
 package Main.Controllers.FormControllers;
 
-import Main.Controllers.MainControllers.MainController;
 import Main.DBconnect;
 import Main.FormUtils.BCrypt;
 import Main.FormUtils.RememberMe;

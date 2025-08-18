@@ -5,7 +5,6 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
 <AnchorPane prefHeight="309.0" prefWidth="298.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Main.Controllers.MainControllers.TransferController">
    <children>
       <Label layoutX="71.0" layoutY="43.0" text="Account Number" />

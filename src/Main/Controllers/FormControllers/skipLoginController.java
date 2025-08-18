@@ -1,13 +1,16 @@
 package Main.Controllers.FormControllers;
 
-import Main.Main;
 import Main.FormUtils.mailSender;
+import Main.Main;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
 import java.io.IOException;
+import java.util.prefs.BackingStoreException;
+
+import static Main.FormUtils.RememberMe.preferences;
 
 public class skipLoginController {
     @FXML
@@ -30,8 +33,9 @@ public class skipLoginController {
         login.switchToOtpScene(event);
     }
 
-    public void noButton(ActionEvent event) throws IOException {
+    public void noButton(ActionEvent event) throws IOException, BackingStoreException {
         otpController.setRemember(false);
+        preferences.clear();
         login.switchToLoginScene(event);
     }
 

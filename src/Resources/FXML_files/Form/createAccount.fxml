@@ -50,7 +50,7 @@
             <Font size="11.0" />
          </font>
       </Label>
-      <Button fx:id="createButton" layoutX="96.0" layoutY="452.0" mnemonicParsing="false" onAction="#createAccount" prefHeight="41.0" prefWidth="224.0" text="Create Account" />
+      <Button fx:id="createButton" layoutX="28.0" layoutY="450.0" mnemonicParsing="false" onAction="#createAccount" prefHeight="26.0" prefWidth="161.0" text="Create Account" />
       <Label layoutX="98.0" layoutY="377.0" style="-fx-font-family: sans-serif; -fx-font-weight: bold;" text="Password">
          <font>
             <Font size="11.0" />
@@ -66,5 +66,6 @@
             <Font size="11.0" />
          </font>
       </Label>
+      <Button layoutX="230.0" layoutY="450.0" mnemonicParsing="false" onAction="#switchToAdminScene" prefHeight="26.0" prefWidth="174.0" text="Back" />
    </children>
 </AnchorPane>
