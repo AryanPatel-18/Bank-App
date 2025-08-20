@@ -15,6 +15,8 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -24,7 +26,7 @@ import static Main.FormUtils.RememberMe.preferences;
 public class AdminController {
 
     public static long accountNumber = 0;
-    public static final String email = "cixeyi4568@mardiek.com";
+    public static String email = "cixeyi4568@mardiek.com";
 
     @FXML
     public void initialize(){
@@ -105,11 +107,12 @@ public class AdminController {
         }
 
         Connection connection = DBconnect.getConnection();
-        String query = "INSERT INTO deletion_logs (account_number, deleted_by, reason) VALUES (?,?,?)";
+        String query = "INSERT INTO deletion_logs (account_number, deleted_by, reason, admin_id) VALUES (?,?,?,?)";
         PreparedStatement statement = connection.prepareStatement(query);
         statement.setLong(1, Long.parseLong(accountNumber));
         statement.setString(2, email);
         statement.setString(3, reason);
+        statement.setInt(4, getAdminId(email));
 
         int row = statement.executeUpdate();
         System.out.println(row>0?"deleted":"not deleted");
@@ -134,9 +137,22 @@ public class AdminController {
     }
 
     public void logout(ActionEvent event) throws Exception{
-        preferences.clear();
         LoginController login = new LoginController();
         login.switchToLoginScene(event);
+    }
+
+    int getAdminId(String email) throws SQLException {
+        Connection connection = DBconnect.getConnection();
+        String query = "SELECT id FROM admin_accounts WHERE email = ?";
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setString(1, email);
+        ResultSet set = statement.executeQuery();
+        if(set.next())
+            return set.getInt(1);
+        else{
+            System.out.println("email : " + email);
+            return 1;
+        }
     }
 
 }

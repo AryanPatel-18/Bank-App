@@ -40,12 +40,11 @@ public class RememberMe {
         preferences.putLong(time_created, current_time);
 
         // Adding these values to the database
-        String query = "INSERT INTO uuids VALUES (?,?,?,?)";
+        String query = "INSERT INTO uuids VALUES (?,?,?)";
         PreparedStatement statement = connection.prepareStatement(query);
         statement.setString(1, email);
         statement.setString(2, BCrypt.hashpw(uuid.toString(), BCrypt.gensalt(12)));
         statement.setLong(3, current_time);
-        statement.setInt(4, getUserId(email));
 
         statement.executeUpdate();
         deleteToken(email);
@@ -54,14 +53,7 @@ public class RememberMe {
 //        System.out.println(rows>0?"Added Values":"Not added values");
     }
 
-    public static int getUserId(String email) throws SQLException{
-        String query = "SELECT user_id FROM users WHERE email = ?";
-        PreparedStatement statement = connection.prepareStatement(query);
-        statement.setString(1, email);
-        ResultSet set = statement.executeQuery();
-        set.next();
-        return set.getInt(1);
-    }
+
 
     public static boolean checkUUID(String email) throws SQLException {
         String query = "SELECT uuid FROM uuids WHERE email = ? ORDER BY timestamp DESC LIMIT 1";
@@ -132,5 +124,15 @@ public class RememberMe {
         preferences.clear();
     }
 
+    boolean isAdminAccount(String email) throws SQLException{
+        Connection connection = DBconnect.getConnection();
+
+        String query = "SELECT * FROM admin_accounts WHERE email = ?";
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setString(1, email);
+        ResultSet set = statement.executeQuery();
+
+        return set.next();
+    }
 
 }

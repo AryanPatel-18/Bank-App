@@ -21,6 +21,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.Objects;
 
 public class TransactionController {
@@ -54,8 +55,10 @@ public class TransactionController {
 
         PreparedStatement statement = connection.prepareStatement(query);
         statement.setInt(1, MainController.user_id);
+        System.out.println(MainController.user_id);
         statement.setDate(2, java.sql.Date.valueOf(startDate));
-        statement.setDate(3, java.sql.Date.valueOf(endDate));
+        LocalDate localEndDate = LocalDate.parse(endDate);
+        statement.setDate(3, java.sql.Date.valueOf(localEndDate.plusDays(1)));
 
         ResultSet set = statement.executeQuery();
 

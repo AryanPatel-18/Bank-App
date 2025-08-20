@@ -250,6 +250,5 @@ public class MainController {
     public void logout(ActionEvent event) throws Exception{
         LoginController login = new LoginController();
         login.switchToLoginScene(event);
-        preferences.clear();
     }
 }

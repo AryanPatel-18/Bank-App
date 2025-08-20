@@ -58,7 +58,7 @@ public class CustomerInformation {
     public void setInformation() throws Exception{
         String query = "SELECT full_name,email, phone_number, created_at, address, user_state, city, birthdate FROM users WHERE user_id = ?";
         PreparedStatement statement = connection.prepareStatement(query);
-        statement.setInt(1, user_id);
+        statement.setInt(1, MainController.user_id);
         ResultSet set = statement.executeQuery();
 
         if(set.next()){

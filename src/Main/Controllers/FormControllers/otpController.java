@@ -1,5 +1,6 @@
 package Main.Controllers.FormControllers;
 
+import Main.Controllers.MainControllers.AdminController;
 import Main.Controllers.MainControllers.MainController;
 import Main.DBconnect;
 import Main.FormUtils.RememberMe;
@@ -38,14 +39,17 @@ public class otpController {
         mailSender m = new mailSender();
         boolean adminAccount = isAdminAccount();
         String actualEmail = remember?RememberMe.preferences.get(RememberMe.stored_email, null):email;
-
+        System.out.println("actual email : " + actualEmail);
 
         int enteredOtp = Integer.parseInt(otpField.getText().trim());
         if(m.checkOtp(enteredOtp, actualEmail)){
             System.out.println("valid otp entered");
             MainController.setEmail(actualEmail);
-            if(adminAccount)
+            if(adminAccount){
                 login.switchToAdminScene(e);
+                System.out.println("opt email : " + actualEmail);
+                AdminController.email = actualEmail;
+            }
             else
                 login.switchToMainScene(e);
         }else{
