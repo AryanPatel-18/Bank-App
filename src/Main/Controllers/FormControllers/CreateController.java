@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import Main.FormUtils.mailSender;
 import java.util.Collection;
 
 // Create Controller file contains all the methods for the create user fxml form
@@ -39,15 +40,16 @@ public class CreateController {
     private ComboBox<String> stateField;
     @FXML
     private ComboBox<String> cityField;
-    @FXML
-    private PasswordField passwordField;
 
     public void createAccount(ActionEvent e) throws SQLException, IOException {
         Create create = new Create();
         LoginController login = new LoginController();
+        mailSender m = new mailSender();
 
         // Creating hash code for the password
-        String password_hash = BCrypt.hashpw(passwordField.getText(), BCrypt.gensalt(12));
+
+
+
         String email = emailField.getText();
 
         // Validating all the fields
@@ -70,7 +72,9 @@ public class CreateController {
             numberField.clear();
             return;
         }
-
+        int value = 1000 + new java.util.Random().nextInt(9000);
+        String password = "" + nameField.getText().charAt(0) + emailField.getText().charAt(2) + value;
+        String password_hash = BCrypt.hashpw(password, BCrypt.gensalt(12));
         create.createUserCall(new User(
                 nameField.getText(),
                 emailField.getText(),
@@ -83,6 +87,7 @@ public class CreateController {
         ));
         create.createBankInfoCall(new BankAccount(accountType.getValue()));
         login.switchToAdminScene(e);
+        m.sendMail(email, password);
     }
 
     // initialize function ( executed when the fxml file is loaded )
@@ -138,7 +143,6 @@ public class CreateController {
                 emailField.getText().isEmpty() ||
                 nameField.getText().isEmpty() ||
                 numberField.getText().isEmpty() ||
-                passwordField.getText().isEmpty() ||
                 cityField.getValue() == null ||
                 stateField.getValue() == null ||
                 dateField.getValue() == null ||

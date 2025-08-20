@@ -27,6 +27,7 @@ public class mailSender {
 
     public mailSender(){}
 
+
     // Used for checking the otp
     public boolean checkOtp(int enteredOtp, String email){
         int actualOtp = 0;
@@ -103,6 +104,45 @@ public class mailSender {
 
             Transport.send(message);
             System.out.println("Email sent successfully.");
+
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void sendMail(String email, String userPassword) {
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.port", "587");
+
+        Session session = Session.getInstance(props,
+                new Authenticator() {
+                    protected PasswordAuthentication getPasswordAuthentication() {
+                        return new PasswordAuthentication(username, password);
+                    }
+                });
+
+        try {
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(username));
+            message.setRecipients(
+                    Message.RecipientType.TO,
+                    InternetAddress.parse(email)
+            );
+            message.setSubject("Your Account Password - BankApp");
+            message.setText("Dear Customer,\n\n" +
+                    "As per your request, here are your login credentials for BankApp:\n\n" +
+                    "📧 Email: " + email + "\n" +
+                    "🔑 Password: " + userPassword + "\n\n" +
+                    "Please keep your credentials safe and do not share them with anyone.\n\n" +
+                    "please reset your password immediately for safety purposes.\n\n" +
+                    "Best regards,\n" +
+                    "BankApp Security Team");
+
+            Transport.send(message);
+            System.out.println("Password email sent successfully.");
 
         } catch (MessagingException e) {
             e.printStackTrace();

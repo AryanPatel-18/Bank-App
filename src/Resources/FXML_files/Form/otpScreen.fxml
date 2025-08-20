@@ -6,14 +6,25 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="262.0" prefWidth="423.0" style="-fx-background-color: #c1e1fc;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Main.Controllers.FormControllers.otpController">
+<AnchorPane prefHeight="389.0" prefWidth="366.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Main.Controllers.FormControllers.otpController">
     <children>
-        <Button fx:id="submitButton" layoutX="177.0" layoutY="122.0" mnemonicParsing="false" onAction="#checkValue" stylesheets="@../../Styles/otp.css" text="Submit" />
-        <TextField fx:id="otpField" layoutX="129.0" layoutY="53.0" promptText="Enter Otp" style="-fx-alignment: center;" />
-        <Label fx:id="invalidMessage" layoutX="103.0" layoutY="183.0" text="Please enter a valid value" textFill="RED">
+        <Button fx:id="submitButton" layoutX="112.0" layoutY="225.0" mnemonicParsing="false" onAction="#checkValue" prefHeight="43.0" prefWidth="143.0" style="-fx-background-color: #fad625; -fx-background-radius: 50; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 20, 0.1, 0, 6);" text="Submit" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font></Button>
+        <TextField fx:id="otpField" layoutX="71.0" layoutY="117.0" prefHeight="33.0" prefWidth="225.0" promptText="Enter Otp" style="-fx-alignment: center; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 20, 0.1, 0, 6); -fx-background-radius: 10;">
+         <font>
+            <Font size="18.0" />
+         </font></TextField>
+        <Label fx:id="invalidMessage" layoutX="96.0" layoutY="342.0" text="Please enter a valid value" textFill="RED">
             <font>
-                <Font size="18.0" />
+                <Font name="System Italic" size="16.0" />
             </font>
         </Label>
+      <Label layoutX="85.0" layoutY="36.0" prefHeight="33.0" prefWidth="198.0" style="-fx-font-weight: bold;" text="Enter the four digit code ">
+         <font>
+            <Font name="SansSerif Regular" size="16.0" />
+         </font>
+      </Label>
     </children>
 </AnchorPane>

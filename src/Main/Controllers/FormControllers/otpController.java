@@ -3,6 +3,7 @@ package Main.Controllers.FormControllers;
 import Main.Controllers.MainControllers.MainController;
 import Main.DBconnect;
 import Main.FormUtils.RememberMe;
+import Main.FormUtils.Validators;
 import Main.FormUtils.mailSender;
 import javafx.animation.ScaleTransition;
 import javafx.event.ActionEvent;
@@ -48,7 +49,7 @@ public class otpController {
             else
                 login.switchToMainScene(e);
         }else{
-            System.out.println("invalid otp");
+            Validators.showInfo("Invalid Otp", "You have entered the wrong otp");
             if(remember) RememberMe.preferences.clear();
             login.switchToLoginScene(e);
         }
@@ -63,7 +64,7 @@ public class otpController {
             System.out.println("valid otp entered");
             login.switchToResetpasswordScreen(e);
         }else{
-            System.out.println("invalid otp");
+            Validators.showInfo("Invalid Otp", "You have entered the wrong otp");
             login.switchToLoginScene(e);
             System.out.println(email);
         }

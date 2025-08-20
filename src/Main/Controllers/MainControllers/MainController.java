@@ -101,7 +101,6 @@ public class MainController {
         String query = "SELECT account_number FROM bank_account WHERE user_id = (SELECT user_id FROM users WHERE email = ?)";
         PreparedStatement statement = connection.prepareStatement(query);
         statement.setString(1, email);
-        System.out.println(email);
         ResultSet set = statement.executeQuery();
 
         if(set.next())
@@ -114,7 +113,7 @@ public class MainController {
     }
 
     public void loadTransactionScene(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Resources/FXML_files/Menu/Transactions.fxml")));
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Resources/FXML_files/Menu/TransactionMenu.fxml")));
         Scene scene = new Scene(root);
         Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         stage.setScene(scene);
@@ -184,7 +183,7 @@ public class MainController {
             Image image = new Image(new ByteArrayInputStream(imageBytes));
             profileImageView.setImage(image);
             // Apply circular clip
-            double radius = profileImageView.getFitWidth() / 2;
+            double radius = profileImageView.getFitWidth()/2;
             Circle clip = new Circle(radius, radius, radius);
             profileImageView.setClip(clip);
         }

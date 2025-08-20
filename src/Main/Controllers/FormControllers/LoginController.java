@@ -1,5 +1,6 @@
 package Main.Controllers.FormControllers;
 
+import Main.Controllers.MainControllers.MainController;
 import Main.DBconnect;
 import Main.FormUtils.BCrypt;
 import Main.FormUtils.RememberMe;
@@ -65,6 +66,7 @@ public class LoginController {
                 RememberMe.preferences.clear();
             switchToOtpScene(event);
             o.setEmail(email);
+            MainController.email = email;
         }else{
             Main.FormUtils.Validators.showInfo("Login Failed", "password entered was incorrect please try again");
             passwordField.clear();
@@ -87,6 +89,7 @@ public class LoginController {
         // Updating all the static emails in the otp file and rest file
         ResetPasswordController.setResetEmail(resetEmail);
         o.setEmail(resetEmail);
+        MainController.email = resetEmail;
 
         if(!Validators.checkEmail(resetEmail)){
             Validators.showInfo("Failed", "Invalid email was entered");

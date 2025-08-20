@@ -1,6 +1,7 @@
 package Main.Controllers.MainControllers;
 
 import Main.DBconnect;
+import Main.FormUtils.FileCreation;
 import Main.Models.Transaction;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -30,6 +31,9 @@ public class TransactionController {
     @FXML private TableColumn<Transaction, String> senderColumn;
     @FXML private TableColumn<Transaction, String> receiverColumn;
 
+    public static String startDate;
+    public static String endDate;
+    public static ObservableList<Transaction> transactions = FXCollections.observableArrayList();
 
     @FXML
     public void initialize() throws Exception{
@@ -42,11 +46,17 @@ public class TransactionController {
 
     private void fetchTransactions() throws SQLException {
         Connection connection = DBconnect.getConnection();
-        ObservableList<Transaction> transactions = FXCollections.observableArrayList();
+        transactions = FXCollections.observableArrayList();
 
-        String query = "SELECT amount, sender_account, receiver_account, timestamp FROM transactions WHERE user_id = ?";
+        String query = "SELECT amount, sender_account, receiver_account, timestamp " +
+                "FROM transactions " +
+                "WHERE user_id = ? AND timestamp BETWEEN ? AND ?";
+
         PreparedStatement statement = connection.prepareStatement(query);
         statement.setInt(1, MainController.user_id);
+        statement.setDate(2, java.sql.Date.valueOf(startDate));
+        statement.setDate(3, java.sql.Date.valueOf(endDate));
+
         ResultSet set = statement.executeQuery();
 
 
@@ -66,6 +76,12 @@ public class TransactionController {
         Scene scene = new Scene(root);
         Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         stage.setScene(scene);
+    }
+
+    public void convertFile(ActionEvent event){
+        FileCreation creation = new FileCreation();
+        Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        creation.exportToExcel(transactions,stage , event);
     }
 
 }
