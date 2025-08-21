@@ -34,12 +34,11 @@ public class CustomerInformation {
         connection.setAutoCommit(false);
         String query = "SELECT photo FROM user_photos WHERE user_id = ?";
         PreparedStatement statement = connection.prepareStatement(query);
-        statement.setInt(1, user_id);
+        statement.setInt(1, MainController.user_id);
         ResultSet set = statement.executeQuery();
         InputStream inputStream;
         if(set.next()){
             byte[] imageBytes = set.getBytes("photo");
-            // Load image directly from InputStream
             Image image = new Image(new ByteArrayInputStream(imageBytes));
             profileImageView.setImage(image);
         }

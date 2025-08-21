@@ -11,6 +11,7 @@ import javafx.scene.control.PasswordField;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 // This file contains all the methods that are required for the reset password fxml file
@@ -48,8 +49,12 @@ public class ResetPasswordController {
 
 
         if(password.equals(verifyPassword)){
-            String query = "UPDATE users SET password_hash = ? WHERE email = ?";
-            System.out.println(resetEmail);
+            String query;
+            if(isAdmin(resetEmail))
+                query = "UPDATE admin_accounts SET password_hash = ? WHERE email = ?";
+            else
+                query = "UPDATE users SET password_hash = ? WHERE email = ?";
+//            System.out.println(resetEmail);
             PreparedStatement statement = connection.prepareStatement(query);
 
             // Passwords can be compared by generating the BCrypt hash of the password that was entered by the user and comparing with the password that is stored in the db
@@ -59,7 +64,10 @@ public class ResetPasswordController {
             System.out.println(rows>0?"Password was updated":"Password was not updated");
 
             if(rows > 0){
-                login.switchToMainScene(e);
+                if(isAdmin(resetEmail))
+                    login.switchToAdminScene(e);
+                else
+                    login.switchToMainScene(e);
             }else{
                 login.switchToLoginScene(e);
             }
@@ -75,6 +83,14 @@ public class ResetPasswordController {
         resetEmail = email;
     }
 
+    boolean isAdmin(String email) throws SQLException{
+        Connection connection = DBconnect.getConnection();
+        String query = "SELECT * FROM admin_accounts WHERE email = ?";
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setString(1, email);
+        ResultSet set = statement.executeQuery();
 
+        return set.next();
+    }
 
 }

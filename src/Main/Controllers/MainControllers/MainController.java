@@ -2,9 +2,7 @@ package Main.Controllers.MainControllers;
 
 import Main.Controllers.FormControllers.LoginController;
 import Main.DBconnect;
-import Main.FormUtils.Validators;
 import Main.Models.Transaction;
-import javafx.animation.ScaleTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,7 +16,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -26,8 +23,6 @@ import java.io.InputStream;
 import java.sql.*;
 import java.util.Objects;
 import java.util.Optional;
-
-import static Main.FormUtils.RememberMe.preferences;
 
 
 public class MainController {

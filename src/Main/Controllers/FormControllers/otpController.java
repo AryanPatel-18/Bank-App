@@ -6,13 +6,11 @@ import Main.DBconnect;
 import Main.FormUtils.RememberMe;
 import Main.FormUtils.Validators;
 import Main.FormUtils.mailSender;
-import javafx.animation.ScaleTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.util.Duration;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -39,7 +37,7 @@ public class otpController {
         mailSender m = new mailSender();
         boolean adminAccount = isAdminAccount();
         String actualEmail = remember?RememberMe.preferences.get(RememberMe.stored_email, null):email;
-        System.out.println("actual email : " + actualEmail);
+//        System.out.println("actual email : " + actualEmail);
 
         int enteredOtp = Integer.parseInt(otpField.getText().trim());
         if(m.checkOtp(enteredOtp, actualEmail)){
@@ -47,7 +45,7 @@ public class otpController {
             MainController.setEmail(actualEmail);
             if(adminAccount){
                 login.switchToAdminScene(e);
-                System.out.println("opt email : " + actualEmail);
+//                System.out.println("opt email : " + actualEmail);
                 AdminController.email = actualEmail;
             }
             else

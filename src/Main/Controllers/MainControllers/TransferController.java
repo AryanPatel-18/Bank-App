@@ -148,8 +148,9 @@ public class TransferController {
         PreparedStatement statement = connection.prepareStatement(query);
         statement.setLong(1, number);
         ResultSet set = statement.executeQuery();
-        set.next();
-        return set.getInt(1);
+        if(set.next())
+            return set.getInt(1);
+        return 17;
     }
 
 }

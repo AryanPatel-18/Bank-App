@@ -20,8 +20,6 @@ import java.sql.SQLException;
 import java.util.Objects;
 import java.util.Optional;
 
-import static Main.FormUtils.RememberMe.preferences;
-
 
 public class AdminController {
 
@@ -56,7 +54,7 @@ public class AdminController {
             accountNumber = result.get();
 
         if(controller.accountExists(Long.parseLong(accountNumber))){
-            CustomerInformation.user_id = controller.getReceiverId(Long.parseLong(accountNumber));
+            MainController.user_id = controller.getReceiverId(Long.parseLong(accountNumber));
             CustomerInformation.isAdmin = true;
             controller1.switchToProfileScene(event);
         }else{

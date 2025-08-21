@@ -4,21 +4,19 @@ import Main.DBconnect;
 import Main.DataStructures.MyArrayList;
 import Main.FormUtils.BCrypt;
 import Main.FormUtils.Create;
+import Main.FormUtils.mailSender;
 import Main.Models.BankAccount;
 import Main.Models.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
-import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
-import Main.FormUtils.mailSender;
-import java.util.Collection;
 
 // Create Controller file contains all the methods for the create user fxml form
 

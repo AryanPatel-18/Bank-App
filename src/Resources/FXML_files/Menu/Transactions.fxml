@@ -16,7 +16,8 @@
         </columns>
     </TableView>
 
-    <Button fx:id="backButton" layoutX="97.0" layoutY="395.0" onAction="#loadMainScene" prefHeight="35.0" prefWidth="126.0" style="-fx-background-radius: 50;" text="Back" />
-   <Button fx:id="backButton1" layoutX="368.0" layoutY="395.0" onAction="#convertFile" prefHeight="35.0" prefWidth="126.0" style="-fx-background-radius: 50;" text="Excel" />
+    <Button fx:id="backButton" layoutX="51.0" layoutY="395.0" onAction="#loadMainScene" prefHeight="35.0" prefWidth="126.0" style="-fx-background-radius: 50;" text="Back" />
+   <Button fx:id="backButton1" layoutX="237.0" layoutY="395.0" onAction="#convertFile" prefHeight="35.0" prefWidth="126.0" style="-fx-background-radius: 50;" text="Excel" />
+   <Button fx:id="backButton11" layoutX="428.0" layoutY="395.0" onAction="#convertTopdf" prefHeight="35.0" prefWidth="126.0" style="-fx-background-radius: 50;" text="PDF" />
 
 </AnchorPane>

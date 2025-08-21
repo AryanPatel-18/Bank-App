@@ -87,4 +87,10 @@ public class TransactionController {
         creation.exportToExcel(transactions,stage , event);
     }
 
+    public void convertTopdf(ActionEvent event){
+        FileCreation creation = new FileCreation();
+        Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        creation.exportToExcelAndPdf(transactions,stage , event);
+    }
+
 }

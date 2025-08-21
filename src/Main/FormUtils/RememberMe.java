@@ -7,7 +7,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.UUID;
 import java.util.prefs.Preferences;
 
@@ -40,17 +39,37 @@ public class RememberMe {
         preferences.putLong(time_created, current_time);
 
         // Adding these values to the database
-        String query = "INSERT INTO uuids VALUES (?,?,?)";
+        String query = "INSERT INTO uuids VALUES (?,?,?,?)";
         PreparedStatement statement = connection.prepareStatement(query);
         statement.setString(1, email);
         statement.setString(2, BCrypt.hashpw(uuid.toString(), BCrypt.gensalt(12)));
         statement.setLong(3, current_time);
+        statement.setInt(4, getUserId(email));
 
         statement.executeUpdate();
         deleteToken(email);
 
 
 //        System.out.println(rows>0?"Added Values":"Not added values");
+    }
+
+    static int getUserId(String email)throws SQLException{
+        String query = "SELECT user_id FROM users WHERE email = ?";
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setString(1, email);
+        ResultSet set = statement.executeQuery();
+
+        if(set.next())
+            return set.getInt(1);
+        else{
+            String adminQuery = "SELECT id FROM admin_accounts WHERE email = ?";
+            PreparedStatement statement1 = connection.prepareStatement(adminQuery);
+            statement1.setString(1, email);
+            ResultSet set1 = statement1.executeQuery();
+            set1.next();
+
+            return set1.getInt(1);
+        }
     }
 
 
@@ -124,15 +143,5 @@ public class RememberMe {
         preferences.clear();
     }
 
-    boolean isAdminAccount(String email) throws SQLException{
-        Connection connection = DBconnect.getConnection();
-
-        String query = "SELECT * FROM admin_accounts WHERE email = ?";
-        PreparedStatement statement = connection.prepareStatement(query);
-        statement.setString(1, email);
-        ResultSet set = statement.executeQuery();
-
-        return set.next();
-    }
 
 }

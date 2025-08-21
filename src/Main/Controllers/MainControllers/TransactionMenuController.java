@@ -1,6 +1,5 @@
 package Main.Controllers.MainControllers;
 
-import Main.Controllers.FormControllers.LoginController;
 import Main.FormUtils.Validators;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,9 +12,9 @@ import javafx.scene.control.DatePicker;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.Date;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.sql.Date;
 import java.util.Objects;
 
 public class TransactionMenuController {
