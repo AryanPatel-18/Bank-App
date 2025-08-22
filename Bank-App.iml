@@ -13,5 +13,6 @@
     <orderEntry type="library" name="postgresql-42.7.7" level="project" />
     <orderEntry type="library" name="poi-ooxml-lite-5.2.3" level="project" />
     <orderEntry type="library" name="openpdf-3.0.0" level="project" />
+    <orderEntry type="library" name="async-http-client-3.0.2" level="project" />
   </component>
 </module>

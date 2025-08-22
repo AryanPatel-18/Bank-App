@@ -1,7 +1,9 @@
 package Main.Controllers.MainControllers;
 
+import Main.AiConnection;
 import Main.Controllers.FormControllers.LoginController;
 import Main.DBconnect;
+import Main.FormUtils.Validators;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -52,6 +54,13 @@ public class AdminController {
         String accountNumber = "";
         if(result.isPresent())
             accountNumber = result.get();
+        else
+            return;
+
+        if(!Validators.isNumeric(accountNumber)){
+            Validators.showInfo("Invalid Value","Please enter a number only");
+            return;
+        }
 
         if(controller.accountExists(Long.parseLong(accountNumber))){
             MainController.user_id = controller.getReceiverId(Long.parseLong(accountNumber));
@@ -73,14 +82,19 @@ public class AdminController {
         dialog.setHeaderText("Please Enter the account number");
         dialog.setContentText("number:");
         Optional<String> result = dialog.showAndWait();
-        String accountNumber = "";
-        String reason = "";
-        boolean valid = true;
+        String accountNumber;
+        String reason;
 
         TransferController controller = new TransferController();
 
         if(result.isPresent()){
             accountNumber = result.get();
+
+            if(!Validators.isNumeric(accountNumber)){
+                Validators.showInfo("Invalid Value","Please enter a valid account number");
+                return;
+            }
+
             if(controller.accountExists(Long.parseLong(accountNumber))){
                 dialog.setTitle("Input Required");
                 dialog.setHeaderText("Please Enter the reason");
@@ -89,19 +103,20 @@ public class AdminController {
 
                 if(result1.isPresent())
                     reason = result1.get();
-                else valid = false;
-            }else valid = false;
-        }else valid = false;
-
-        if(!valid){
-            LoginController login = new LoginController();
-
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText("Invalid Number"); // optional, can show a header
-            alert.setContentText("Suspension failed please enter valid information");
-            alert.show();
-            login.switchToAdminScene(event);
+                else{
+                    Validators.showInfo("Reason required","You need to provide the reason");
+                    return;
+                }
+                if(reason.isEmpty()){
+                    Validators.showInfo("Reason required","You need to provide the reason");
+                    return;
+                }
+            }else {
+                Validators.showInfo("Invalid Account number","The account number does not exist");
+                return;
+            }
+        }else {
+            return;
         }
 
         Connection connection = DBconnect.getConnection();
@@ -150,6 +165,21 @@ public class AdminController {
         else{
             System.out.println("email : " + email);
             return 1;
+        }
+    }
+
+    public void createQuery(ActionEvent event){
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Input Required");
+        dialog.setHeaderText("Please Enter the account number");
+        dialog.setContentText("number:");
+        Optional<String> result = dialog.showAndWait();
+
+        if(result.isPresent()){
+            AiConnection.naturalPrompt = result.get();
+            AiConnection.generateSqlFromPrompt();
+        }else{
+            Validators.showInfo("Error","Please enter a prompt");
         }
     }
 

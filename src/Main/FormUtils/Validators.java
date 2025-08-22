@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 
 // This file contains all the methods that would be used for data validation as well as an alert prompt method
 
@@ -41,5 +42,15 @@ public class Validators {
     public static boolean isValidIndianPhoneNumber(String number) {
         // Check if number is exactly 10 digits and starts with 6-9
         return number != null && number.matches("[6-9]\\d{9}");
+    }
+
+    public static boolean isNumeric(String str) {
+        if (str == null || str.isEmpty()) return false;
+        return str.matches("\\d+(\\.\\d+)?");
+    }
+
+    public static boolean isAfterToday(LocalDate inputDate) {
+        LocalDate today = LocalDate.now();
+        return inputDate.isAfter(today);
     }
 }

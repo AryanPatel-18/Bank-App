@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="436.0" prefWidth="390.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Main.Controllers.MainControllers.AdminController">
+<AnchorPane prefHeight="538.0" prefWidth="390.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Main.Controllers.MainControllers.AdminController">
    <children>
       <Button layoutX="81.0" layoutY="145.0" mnemonicParsing="false" onAction="#viewInformation" prefHeight="58.0" prefWidth="229.0" style="-fx-background-color: #f5c73a; -fx-font-weight: bold; -fx-border-radius: 50; -fx-border-style: solid; -fx-background-radius: 50; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 20, 0.1, 0, 6);" text="View Customer Information">
          <font>
@@ -14,7 +14,7 @@
          <font>
             <Font name="System Bold" size="15.0" />
          </font></Button>
-      <Button layoutX="81.0" layoutY="318.0" mnemonicParsing="false" onAction="#logout" prefHeight="58.0" prefWidth="229.0" style="-fx-background-color: #f5c73a; -fx-border-style: solid; -fx-font-weight: bold; -fx-background-radius: 50; -fx-border-radius: 50; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 20, 0.1, 0, 6);" text="Logout">
+      <Button layoutX="80.0" layoutY="407.0" mnemonicParsing="false" onAction="#logout" prefHeight="58.0" prefWidth="229.0" style="-fx-background-color: #f5c73a; -fx-border-style: solid; -fx-font-weight: bold; -fx-background-radius: 50; -fx-border-radius: 50; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 20, 0.1, 0, 6);" text="Logout">
          <font>
             <Font size="15.0" />
          </font></Button>
@@ -22,5 +22,10 @@
          <font>
             <Font size="15.0" />
          </font></Button>
+      <Button layoutX="81.0" layoutY="315.0" mnemonicParsing="false" onAction="#createQuery" prefHeight="58.0" prefWidth="229.0" style="-fx-background-color: #f5c73a; -fx-font-weight: bold; -fx-border-style: solid; -fx-background-radius: 50; -fx-border-radius: 50; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 20, 0.1, 0, 6);" text="Create Query">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

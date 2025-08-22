@@ -1,5 +1,6 @@
 package Main.Controllers.FormControllers;
 
+import Main.Controllers.MainControllers.AdminController;
 import Main.Controllers.MainControllers.MainController;
 import Main.DBconnect;
 import Main.FormUtils.BCrypt;
@@ -46,6 +47,7 @@ public class LoginController {
     // Main login controller file ( activates when the submit button is clicked )
     public void login(ActionEvent event) throws Exception {
         String email = emailField.getText().trim();
+        MainController.email = AdminController.email = email;
 
         // Validating the email
         if(!Validators.checkEmail(email)){

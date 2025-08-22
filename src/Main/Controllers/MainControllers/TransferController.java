@@ -2,6 +2,7 @@ package Main.Controllers.MainControllers;
 
 import Main.Controllers.FormControllers.LoginController;
 import Main.DBconnect;
+import Main.FormUtils.Validators;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -42,9 +43,14 @@ public class TransferController {
 
     public void sendAmount(ActionEvent event) throws Exception{
         connection.setAutoCommit(false);
+
+        if(!Validators.isNumeric(amountField.getText()) || !Validators.isNumeric(numberField.getText())){
+            Validators.showInfo("Invalid Values","Please enter valid values");
+            return;
+        }
+
         double enteredAmount = Double.parseDouble(amountField.getText());
         long accountNumber = Long.parseLong(numberField.getText());
-
 
         LoginController login = new LoginController();
 
@@ -53,28 +59,20 @@ public class TransferController {
         if(enteredAmount <= 0){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
-            alert.setHeaderText("Invalid Value"); // optional, can show a header
+            alert.setHeaderText("Invalid Value");
             alert.setContentText("Please enter an amount greater than 0");
             alert.show();
             login.switchToMainScene(event);
         }
 
         if(enteredAmount > currentBalance){
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText("Not enough balance"); // optional, can show a header
-            alert.setContentText("The balance you have is not sufficient for the entered amount");
-            alert.show();
-            login.switchToMainScene(event);
+            Validators.showInfo("Not enough Balance","You don't have enough balance");
+            return;
         }
 
         if(!accountExists(accountNumber)){
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText("Invalid Number"); // optional, can show a header
-            alert.setContentText("The account number you have entered is not valid");
-            alert.show();
-            login.switchToMainScene(event);
+            Validators.showInfo("Invalid Account Number","Please enter a valid account number");
+            return;
         }
 
         double newBalance = currentBalance - enteredAmount;

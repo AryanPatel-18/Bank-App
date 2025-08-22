@@ -103,10 +103,10 @@ public class FileCreation{
                 }
 
 
-                sheet.setColumnWidth(0, 5000); // Amount
+                sheet.setColumnWidth(0, 4500); // Amount
                 sheet.setColumnWidth(1, 8000); // Timestamp
-                sheet.setColumnWidth(2, 6000); // Sender
-                sheet.setColumnWidth(3, 6000); // Receiver
+                sheet.setColumnWidth(2, 5000); // Sender
+                sheet.setColumnWidth(3, 5000); // Receiver
 
 
                 sheet.createFreezePane(0, 1);
@@ -200,10 +200,10 @@ public class FileCreation{
                 }
 
 
-                sheet.setColumnWidth(0, 5000);
-                sheet.setColumnWidth(1, 8000);
-                sheet.setColumnWidth(2, 6000);
-                sheet.setColumnWidth(3, 6000);
+                sheet.setColumnWidth(0, 4500); // Amount
+                sheet.setColumnWidth(1, 8000); // Timestamp
+                sheet.setColumnWidth(2, 5000); // Sender
+                sheet.setColumnWidth(3, 5000); // Receiver
 
                 sheet.createFreezePane(0, 1);
 

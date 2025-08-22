@@ -4,6 +4,7 @@ import Main.DBconnect;
 import Main.DataStructures.MyArrayList;
 import Main.FormUtils.BCrypt;
 import Main.FormUtils.Create;
+import Main.FormUtils.Validators;
 import Main.FormUtils.mailSender;
 import Main.Models.BankAccount;
 import Main.Models.User;
@@ -70,6 +71,10 @@ public class CreateController {
             numberField.clear();
             return;
         }
+        if(Validators.isAfterToday(dateField.getValue())){
+            Validators.showInfo("Invalid birthdate","Please enter a valid birthdate");
+            return;
+        }
         int value = 1000 + new java.util.Random().nextInt(9000);
         String password = "" + nameField.getText().charAt(0) + emailField.getText().charAt(2) + value;
         String password_hash = BCrypt.hashpw(password, BCrypt.gensalt(12));
@@ -92,7 +97,7 @@ public class CreateController {
     @FXML
     public void initialize(){
         ArrayList<String> states = new ArrayList<>();
-        ArrayList<String> typesAccount = new ArrayList<>(Arrays.asList("Savings", "Current", "Fixed Deposit", "Recurring Deposit", "Salary", "Joint", "Demat", "Loan", "Overdraft", "Pension", "Minor", "Student"));
+        ArrayList<String> typesAccount = new ArrayList<>(Arrays.asList("Savings", "Current", "Fixed Deposit", "Recurring Deposit", "Salary", "Joint", "Demat", "Minor", "Student"));
 
         // Setting the states in the state combo box
         try{

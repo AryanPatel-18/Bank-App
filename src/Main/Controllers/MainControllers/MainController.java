@@ -2,6 +2,7 @@ package Main.Controllers.MainControllers;
 
 import Main.Controllers.FormControllers.LoginController;
 import Main.DBconnect;
+import Main.FormUtils.Validators;
 import Main.Models.Transaction;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -149,9 +150,20 @@ public class MainController {
 
 
         Optional<String> result = dialog.showAndWait();
-        double amount = result.isPresent()?Double.parseDouble(result.get()):0;
-        if (amount <= 0) {
-            Main.FormUtils.Validators.showInfo("Invalid Value","Please enter a valid value");
+        double amount = 0;
+        if(result.isPresent()){
+            String value = result.get();
+            if(Validators.isNumeric(value)){
+                amount = Double.parseDouble(value);
+                if(amount == 0){
+                    Validators.showInfo("Invalid value","The amount cannot be zero");
+                    return;
+                }
+            }else{
+                Validators.showInfo("Invalid Value","Please enter a valid value");
+                return;
+            }
+        }else{
             return;
         }
 
@@ -184,8 +196,8 @@ public class MainController {
         }
         connection.commit();
         connection.setAutoCommit(true);
-    }
 
+    }
     void getValues() throws SQLException{
         String query = "SELECT user_id FROM users WHERE email = ?";
         PreparedStatement statement = connection.prepareStatement(query);
@@ -228,7 +240,7 @@ public class MainController {
         TransactionLabel.setText(String.valueOf(lastTransactionValue));
     }
 
-    public void switchToProfileScene(ActionEvent event) throws IOException {
+public void switchToProfileScene(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Resources/FXML_files/Menu/CustomerInformation.fxml")));
         Scene scene = new Scene(root);
         Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();

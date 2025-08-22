@@ -51,7 +51,7 @@ public class Create {
         statement.setInt(2, account.getUser_id());
         statement.setString(3, account.getAccount_type());
         statement.setString(4, account.getStatus());
-        statement.setDouble(5, 0);
+        statement.setDouble(5, 2000);
 
         int row = statement.executeUpdate();
 

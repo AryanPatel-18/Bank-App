@@ -1,5 +1,6 @@
 package Main.Controllers.MainControllers;
 
+import Main.Controllers.FormControllers.LoginController;
 import Main.FormUtils.Validators;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -113,6 +114,11 @@ public class TransactionMenuController {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void goBack(ActionEvent event) throws Exception{
+        LoginController login = new LoginController();
+        login.switchToMainScene(event);
     }
 }
 

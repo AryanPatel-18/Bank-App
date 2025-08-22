@@ -74,7 +74,7 @@ public class otpController {
 
     @FXML
     private void initialize() {
-
+        submitButton.setDisable(true);
         // disables the submit button until the otp that is entered is of 4 digits and only contains numbers
         otpField.textProperty().addListener((obs, oldText, newText) -> {
             submitButton.setDisable(true);
