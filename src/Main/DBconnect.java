@@ -22,9 +22,10 @@ public class DBconnect {
             try {
                 connection = DriverManager.getConnection(URL, USER, PASSWORD);
             } catch (SQLException e) {
-                System.err.println("❌ Database connection failed: " + e.getMessage());
+                System.err.println(" Database connection failed: " + e.getMessage());
             }
         }
+
         return connection;
     }
 

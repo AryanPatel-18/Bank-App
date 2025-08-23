@@ -116,7 +116,7 @@ public class FileCreation{
                 }
                 login.switchToMainScene(event);
             } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println("An error occurred while creating the excel file");
             }
         }
     }
@@ -212,7 +212,7 @@ public class FileCreation{
                 }
                 login.switchToMainScene(event);
             } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println("There was a problem in creating the excel file");
             }
         }
     }
@@ -228,7 +228,7 @@ public class FileCreation{
 
             System.out.println("Converted Excel to PDF successfully!");
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("There was a problem in converting the excel file");
         }
     }
 

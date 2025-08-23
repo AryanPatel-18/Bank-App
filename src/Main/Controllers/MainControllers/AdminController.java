@@ -15,10 +15,7 @@ import javafx.scene.control.TextInputDialog;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -136,14 +133,19 @@ public class AdminController {
         PreparedStatement statement2 = connection.prepareStatement(delete2);
         String delete1 = "DELETE FROM bank_account WHERE account_number = ?";
         PreparedStatement statement1 = connection.prepareStatement(delete1);
-        String delete3 = "DELETE FROM transactions WHERE user_id = ?";
+        String delete3 = "DELETE FROM transactions WHERE sender_account = ? OR receiver_account = ? ";
         PreparedStatement statement3 = connection.prepareStatement(delete3);
+
 
         statement1.setLong(1, Long.parseLong(accountNumber));
         statement2.setInt(1, user_id);
-        statement3.setInt(1, user_id);
+        statement3.setLong(1, Long.parseLong(accountNumber));
+        statement3.setLong(2, Long.parseLong(accountNumber));
 
         statement3.executeUpdate();
+
+        Thread.sleep(1000);
+
         statement1.executeUpdate();
         statement2.executeUpdate();
 
@@ -176,11 +178,42 @@ public class AdminController {
         Optional<String> result = dialog.showAndWait();
 
         if(result.isPresent()){
-            AiConnection.naturalPrompt = result.get();
-            AiConnection.generateSqlFromPrompt();
+            if(!AiConnection.validatePrompt(result.get(), event))
+                Validators.showInfo("Invalid Prompt","Please don't use any prompts that updates the table");
         }else{
             Validators.showInfo("Error","Please enter a prompt");
         }
     }
+
+    public void createAndExecuteSql(ActionEvent event) throws Exception{
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Input Required");
+        dialog.setHeaderText("Please enter your sql query");
+        dialog.setContentText("query:");
+        Optional<String> result = dialog.showAndWait();
+
+        if(result.isPresent()){
+            String prompt = result.get();
+            if(Validators.isValidSql(prompt)){
+                SelectController.rs = AiConnection.getResultSet(prompt);
+                if((SelectController.rs == null)){
+                    Validators.showInfo("Invalid Result set","No statements returned");
+                    return;
+                }
+                loadSelectScene(event);
+            }
+            else
+                Validators.showInfo("Invalid sql","Please enter a valid sql query");
+        }
+    }
+
+    public void loadSelectScene(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Resources/FXML_files/Menu/SelectView.fxml")));
+        Scene scene = new Scene(root);
+        Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+    }
+
+
 
 }

@@ -135,10 +135,12 @@ public class TransferController {
     private Long getAccountNumber() throws SQLException{
         String query = "SELECT account_number FROM bank_account WHERE user_id = ?";
         PreparedStatement statement = connection.prepareStatement(query);
-        statement.setInt(1, user_id);
+        statement.setInt(1, MainController.user_id);
         ResultSet set = statement.executeQuery();
-        set.next();
-        return set.getLong(1);
+        if(set.next())
+            return set.getLong(1);
+        else
+            return getAccountNumber();
     }
 
     public int getReceiverId(long number) throws SQLException{

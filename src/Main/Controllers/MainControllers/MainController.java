@@ -186,10 +186,10 @@ public class MainController {
         InputStream inputStream;
         if(set.next()){
             byte[] imageBytes = set.getBytes("photo");
-            // Load image directly from InputStream
+
             Image image = new Image(new ByteArrayInputStream(imageBytes));
             profileImageView.setImage(image);
-            // Apply circular clip
+
             double radius = profileImageView.getFitWidth()/2;
             Circle clip = new Circle(radius, radius, radius);
             profileImageView.setClip(clip);

@@ -47,7 +47,15 @@ public class LoginController {
     // Main login controller file ( activates when the submit button is clicked )
     public void login(ActionEvent event) throws Exception {
         String email = emailField.getText().trim();
+
+
         MainController.email = AdminController.email = email;
+
+        if(MainController.email == null || AdminController.email == null){
+            Validators.showInfo("Some error occured","The email values were left as null");
+            return;
+        }
+
 
         // Validating the email
         if(!Validators.checkEmail(email)){

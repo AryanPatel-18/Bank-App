@@ -3,10 +3,7 @@ package Main.FormUtils;
 import Main.DBconnect;
 import javafx.scene.control.Alert;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.time.LocalDate;
 
 // This file contains all the methods that would be used for data validation as well as an alert prompt method
@@ -52,5 +49,33 @@ public class Validators {
     public static boolean isAfterToday(LocalDate inputDate) {
         LocalDate today = LocalDate.now();
         return inputDate.isAfter(today);
+    }
+
+    public static boolean isValidSql(String sql) throws SQLException {
+        if (sql == null || sql.trim().isEmpty()) {
+            return false;
+        }
+
+        String trimmed = sql.trim().toLowerCase();
+
+        return trimmed.startsWith("select") ||
+                trimmed.startsWith("insert") ||
+                trimmed.startsWith("update") ||
+                trimmed.startsWith("delete") ||
+                trimmed.startsWith("create") ||
+                trimmed.startsWith("drop") ||
+                trimmed.startsWith("alter") ||
+                trimmed.startsWith("truncate") ||
+                trimmed.startsWith("replace") ||
+                trimmed.startsWith("merge") ||
+                trimmed.startsWith("grant") ||
+                trimmed.startsWith("revoke") ||
+                trimmed.startsWith("with") ||
+                trimmed.startsWith("call") ||
+                trimmed.startsWith("explain");
+    }
+
+    public static void main(String[] args) throws SQLException {
+        System.out.println(isValidSql("asdasdasd"));
     }
 }
